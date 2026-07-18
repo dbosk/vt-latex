@@ -33,10 +33,13 @@ That round found \emph{no} studies of LaTeX-specific misconceptions---only
 the efficiency comparison \autocite{Knauff2014Latex}.
 The second phase is a systematic, tool-supported multi-database search
 with the \texttt{scholar} tool, as in the companion papers
-\autocite{VTProgMisconceptions,VTDebug}; given the phase-one gap it must
-also cover adjacent literatures: markup languages in education, compiler
+\autocite{VTProgMisconceptions,VTDebug}; given the phase-one gap it also
+covered adjacent literatures---markup languages in education, compiler
 error messages, and end-user programming of documents.
-% TODO(#1): Run the systematic phase.
+This round confirmed the gap (no LaTeX-specific learner study) and
+retained the transferable adjacent-literature sources on which
+\cref{sec:errors,sec:markup} draw; it is documented in full in
+\cref{app:protocol}.
 
 \subsection{Course data}
 \label{sec:method-course-data}
@@ -61,3 +64,43 @@ LaTeX affords the vary-and-observe loop
 ThuneEckerdal2018Lab} in a particularly clean form: change one thing in
 the source, recompile, observe the output---source diff against output
 diff.
+
+\subsection{Course instruments}
+\label{sec:method-instruments}
+
+To make the analysis empirically testable in a future study, we prepare a
+pre/post-test that measures whether students discern the candidate
+critical aspects of \cref{sec:compilation,sec:errors,sec:markup} before
+and after the LaTeX module.
+Two short quizzes---administered at the start and the end of the
+module---share the same items: one graded choice item per candidate
+critical aspect, each distractor expressing the behaviour of a learner who
+has not discerned that aspect.
+The start-of-module scores measure what students bring, and the gain to
+the end-of-module scores measures what the module added; following
+\citeauthor{NCOL}, the stems do not point out the aspect under test
+\autocite[p.~91]{NCOL}.
+Participation is opt-in and pseudonymous: the start quiz opens with a
+consent item, and the instrument is set up in the learning platform, and
+its results prepared for analysis, by the literate program of
+\cref{app:quiz}.
+This complements the course-data collection
+(\cref{sec:method-course-data}): the course data documents the
+difficulties that ground the aspects, while the pre/post-test would later
+test whether teaching against them makes the aspects discernible.
+
+The pre/post-test complements the course data of
+\cref{sec:method-course-data} as the second of two sources, and with the
+literature gap confirmed (\cref{app:protocol}) the course data is
+promoted from supplement to primary evidence: the LaTeX lab's grading
+already checks semantic-markup use, so each such check failure is a
+documented instance of the presentational-markup misconception
+(\cref{sec:markup}), and the submitted sources make hand-formatted
+headings, manual numbering and unresolved errors statically detectable.
+The two sources are kept methodologically separate to avoid
+circularity: misconception codes derived from the assessment traces are
+never correlated with those same traces; the pre/post-test is the
+independent measure of discernment.
+Participation is opt-in through the consent item of the pre-test, which
+covers course submissions; grading runs for all students regardless,
+and research extraction filters by consent afterwards.

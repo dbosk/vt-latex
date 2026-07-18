@@ -8,12 +8,26 @@ debugging loop.
 
 \subsection{Documented difficulties}
 
-The seed round found no LaTeX-specific studies of error handling by
-learners.
-% TODO(#1): The systematic phase should search the compiler-error-message
-% literature (well developed for programming) for transferable findings,
-% and the course's TeX-error material needs (introtools issue #119) supply
-% the teaching-side requirements.
+The systematic round (\cref{app:protocol}) again found no LaTeX-specific
+studies of error handling by learners, but the adjacent literature on
+\emph{programming} error messages is well developed, and its findings are
+suggestive for TeX errors.
+Interpreting error messages is crucial for making progress, yet the
+messages are often cryptic and pose a barrier to novices, who repeat the
+same errors \autocite{Becker2016CEM,Traver2010CompilerErrors}, and poorly
+designed messages hurt novices more than experts
+\autocite{Traver2010CompilerErrors}; their readability turns on such
+factors as message length and jargon \autocite{Denny2021ErrorReadability}.
+TeX's terse, idiosyncratic error reports (\enquote{\texttt{Undefined
+control sequence}}, line numbers pointing past the real fault) are at
+least as cryptic, and we conjecture the same barrier for learners.
+Most directly for the aspects below, novices do not reliably act on the
+\emph{first} error: in one activity-log study students addressed the first
+error only about half the time, and doing so correlated with better grades
+\autocite{Munson2016CompilerErrors}; and students who do read the message
+generally make effective changes afterwards
+\autocite{Prather2017Interaction}---so reading the message, and reading the
+first one, are the moves to teach.
 % TODO(#2): Course data: which TeX errors stop datintro students, and what do
 % they do next?
 

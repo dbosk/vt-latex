@@ -208,6 +208,240 @@
   doi={10.1103/physrevphyseducres.16.010127},
 }
 
+% ===================================================================
+% Phase-two systematic round (2026-07-18): adjacent literatures.
+% Phase one found no LaTeX-specific learner studies; these back the
+% transferable claims about compiler/programming error messages,
+% markup-in-education, and end-user programming. Each CLAIM states the
+% finding at the source's own strength; the chapter prose marks the
+% transfer to LaTeX/TeX explicitly as a conjecture.
+% ===================================================================
+
+% === provenance: Munson2016CompilerErrors ===
+% CLAIM: Novices often fail to act on the first compiler error message;
+%   in one activity-log study students addressed the first error only
+%   about half the time, and doing so was positively associated with
+%   assignment grades. (For programming; we conjecture the same for the
+%   first-error-first strategy with TeX errors.)
+% FOUND-VIA: scholar search "compiler error messages novice programmers comprehension" -p dblp -p openalex
+% PICKED: a direct empirical (activity-log) study of how novices use the
+%   first error message, matching the paper's "the first error counts"
+%   critical aspect better than the enhancement-effectiveness studies.
+% QUOTE (abstract): "Overall, students addressed the first error about
+%   half the time. Assignment grades were positively associated with the
+%   proportion of times that the first error message was addressed."
+% VERIFIED: abstract read (OpenAlex via scholar). Applies because it
+%   documents novices not prioritising the first error; transfer to TeX
+%   is a conjecture, marked as such in errors.tex.
+%   NOTE: independent re-verification of the quote was blocked by API
+%   rate limits (10.5555 legacy DOI not resolvable via Crossref/OpenAlex
+%   title search at review time) -- re-check the quote against the JCSC
+%   paper before submission.
+% DATE: 2026-07-18
+@article{Munson2016CompilerErrors,
+  title={Analyzing novice programmers' response to compiler error messages},
+  author={Munson, Jonathan P. and Schilling, Elizabeth A.},
+  journal={Journal of Computing Sciences in Colleges},
+  volume={31},
+  number={3},
+  pages={53--61},
+  year={2016},
+  doi={10.5555/2835377.2835386},
+}
+
+% === provenance: Becker2016CEM ===
+% CLAIM: Interpreting compiler error messages is crucial for making
+%   progress, yet the messages are often hard to understand and a barrier
+%   for novices, who exhibit high frequencies of errors, particularly
+%   repeated errors. (For programming; conjectured to transfer to TeX.)
+% FOUND-VIA: scholar search "enhanced error messages students introductory programming" -p dblp -p openalex
+% PICKED: canonical Becker et al. control/intervention study in a
+%   dedicated CS-education journal; states the difficulty and the
+%   repeated-error pattern directly (the enhancement result is secondary
+%   for us).
+% QUOTE (abstract): "Successfully interpreting compiler error messages
+%   (CEMs) is crucial for correcting errors and progressing toward success
+%   in programming. Yet these messages are often difficult to understand
+%   and pose a barrier to progress for many novices, with struggling
+%   students often exhibiting high frequencies of errors, particularly
+%   repeated errors."
+% VERIFIED: abstract read (OpenAlex via scholar). Applies because it
+%   states both that reading the message is essential and that novices
+%   struggle and repeat errors; TeX transfer marked as conjecture.
+% DATE: 2026-07-18
+@article{Becker2016CEM,
+  title={Effective compiler error message enhancement for novice programming students},
+  author={Becker, Brett A. and Glanville, Graham and Iwashima, Ricardo and McDonnell, Claire and Goslin, Kyle and Mooney, Catherine},
+  journal={Computer Science Education},
+  volume={26},
+  number={2--3},
+  pages={148--175},
+  year={2016},
+  doi={10.1080/08993408.2016.1225464},
+}
+
+% === provenance: Traver2010CompilerErrors ===
+% CLAIM: Compiler error messages are often cryptic and difficult to
+%   understand, and poorly designed messages affect novice programmers
+%   more adversely than experts. (For programming; conjectured for TeX.)
+% FOUND-VIA: scholar search "compiler error messages novice programmers comprehension" -p dblp -p openalex
+% PICKED: an HCI-perspective analysis of why error messages impede
+%   programmers and how their design can be improved; complements the
+%   empirical studies with the design/readability angle.
+% QUOTE (abstract): "Programmers often encounter cryptic compiler error
+%   messages that are difficult to understand and thus difficult to
+%   resolve. [...] because poorly designed error messages affect novice
+%   programmers more adversely, the problems faced by computer science
+%   students while learning to program are analyzed".
+% VERIFIED: abstract read (OpenAlex via scholar). Applies because it
+%   states cryptic messages hurt novices most; TeX transfer conjectured.
+% DATE: 2026-07-18
+@article{Traver2010CompilerErrors,
+  title={On Compiler Error Messages: What They Say and What They Mean},
+  author={Traver, V. Javier},
+  journal={Advances in Human-Computer Interaction},
+  volume={2010},
+  pages={602570},
+  year={2010},
+  doi={10.1155/2010/602570},
+}
+
+% === provenance: Denny2021ErrorReadability ===
+% CLAIM: Programming error messages are notoriously problematic
+%   especially for novices, and their readability is affected by
+%   identifiable factors including message length, jargon use, sentence
+%   structure and vocabulary. (For programming; conjectured for TeX.)
+% FOUND-VIA: scholar search "enhanced error messages students introductory programming" -p dblp -p openalex
+% PICKED: recent CHI study giving empirical support for what makes error
+%   messages readable, i.e. why TeX's terse messages are hard; the
+%   readability-factors result is the transferable part.
+% QUOTE (abstract): "error messages are notoriously problematic,
+%   especially for novices. [...] key factors [...] message readability:
+%   message length, jargon use, sentence structure, and vocabulary."
+% VERIFIED: abstract read (OpenAlex via scholar). Applies because it
+%   names the readability factors of error messages; elided spans are
+%   PDF-ligature-garbled in the source and omitted with [...]. TeX
+%   transfer conjectured.
+% DATE: 2026-07-18
+@inproceedings{Denny2021ErrorReadability,
+  title={On Designing Programming Error Messages for Novices: Readability and its Constituent Factors},
+  author={Denny, Paul and Prather, James and Becker, Brett A. and Mooney, Catherine and Homer, John and Albrecht, Zachary and Powell, Garrett B.},
+  booktitle={Proceedings of the 2021 CHI Conference on Human Factors in Computing Systems},
+  publisher={ACM},
+  year={2021},
+  doi={10.1145/3411764.3445696},
+}
+
+% === provenance: Prather2017Interaction ===
+% CLAIM: Understanding compiler error messages is a major impediment to
+%   novice learning; a think-aloud study found most students do read
+%   enhanced messages and generally make effective changes after them.
+%   (For programming; conjectured for TeX.)
+% FOUND-VIA: scholar search "compiler error messages novice programmers comprehension" -p dblp -p openalex
+% PICKED: a think-aloud study that both states the impediment and gives
+%   evidence that students act on messages when they read them --
+%   supports the "errors are normal; read the message" aspect.
+% QUOTE (abstract): "The difficulty in understanding compiler error
+%   messages can be a major impediment to novice student learning. [...]
+%   qualitative results from the one-on-one think-aloud study indicated
+%   that most students are reading the enhanced compiler error messages
+%   and generally make effective changes after encountering them."
+% VERIFIED: abstract read (OpenAlex via scholar). Applies because it
+%   documents the impediment and that acting on messages helps; TeX
+%   transfer conjectured.
+% DATE: 2026-07-18
+@inproceedings{Prather2017Interaction,
+  title={On Novices' Interaction with Compiler Error Messages},
+  author={Prather, James and Pettit, Raymond and McMurry, Kayla Holcomb and Peters, Alani and Homer, John and Simone, Nevan and Cohen, Maxine},
+  booktitle={Proceedings of the 2017 ACM Conference on International Computing Education Research (ICER)},
+  publisher={ACM},
+  year={2017},
+  doi={10.1145/3105726.3106169},
+}
+
+% === provenance: Ko2004Barriers ===
+% CLAIM: Learning an end-user programming system involves identifiable
+%   barriers -- design, selection, coordination, use, understanding and
+%   information -- beyond the language itself. (For end-user programming;
+%   conjectured to transfer to authoring structured LaTeX documents.)
+% FOUND-VIA: scholar search "compiler error messages novice programmers comprehension" -p dblp -p openalex
+% PICKED: the canonical taxonomy of end-user-programming learning
+%   barriers; authoring a structured document with markup is an instance
+%   of end-user programming, so the "understanding" and "use" barriers
+%   transfer.
+% QUOTE (abstract): "This identified six types of barriers: design,
+%   selection, coordination, use, understanding, and information. These
+%   barriers inspire a new metaphor of computation, which provides a more
+%   learner-centric view of programming system design."
+% VERIFIED: abstract read (OpenAlex via scholar). Applies because it
+%   catalogues learning barriers in end-user programming; the transfer to
+%   document markup is a conjecture, marked as such.
+% DATE: 2026-07-18
+@inproceedings{Ko2004Barriers,
+  title={Six Learning Barriers in End-User Programming Systems},
+  author={Ko, Amy J. and Myers, Brad A. and Aung, Htet Htet},
+  booktitle={2004 IEEE Symposium on Visual Languages and Human Centric Computing (VL/HCC)},
+  publisher={IEEE},
+  pages={199--206},
+  year={2004},
+  doi={10.1109/vlhcc.2004.47},
+}
+
+% === provenance: Kharchenko2025WebDesign ===
+% CLAIM: Even for HTML and CSS -- a far more commonly taught markup than
+%   LaTeX -- empirical research on teaching the markup is scarce and in a
+%   nascent state; the few studies report learning difficulties around
+%   complex-material comprehension and motivation.
+% FOUND-VIA: scholar search "teaching HTML students misconceptions web development" -p s2
+% PICKED: a 2025 PRISMA systematic review of the whole HTML/CSS-teaching
+%   literature; its central negative result (scarcity) parallels this
+%   paper's LaTeX gap, so it is the right source for "markup education is
+%   thinly researched".
+% QUOTE (abstract): "The limited number of studies despite expanded
+%   searching confirms the nascent state of empirical research in this
+%   domain. [...] common learning difficulties and their solutions,
+%   particularly regarding complex material comprehension and student
+%   motivation. [...] The scarcity of empirical research, confirmed
+%   through expanded searching, highlights the urgent need for additional
+%   studies."
+% VERIFIED: full abstract read (Semantic Scholar Graph API,
+%   DOI:10.1007/s44217-025-01079-0). Applies because it establishes that
+%   markup-teaching research is scarce even for HTML/CSS.
+% DATE: 2026-07-18
+@article{Kharchenko2025WebDesign,
+  title={A systematic review of research on teaching web design to secondary school students through HTML and CSS},
+  author={Kharchenko, Oleksandr Ye. and Semerikov, Serhii O.},
+  journal={Discover Education},
+  volume={4},
+  year={2025},
+  doi={10.1007/s44217-025-01079-0},
+}
+
+% === provenance: LiterateProgramming ===
+% CLAIM: Literate programming is the practice where a program's prose is
+%   the primary artifact, from which the program is explained to people,
+%   and tangled into machine form from the same source.
+% FOUND-VIA: known primary source; metadata verified via Crossref DOI
+%   10.1093/comjnl/27.2.97; full text from literateprogramming.com.
+% PICKED: the primary source defining literate programming.
+% QUOTE (p. 97): "Let us change our traditional attitude to the
+%   construction of programs: Instead of imagining that our main task is
+%   to instruct a computer what to do, let us concentrate rather on
+%   explaining to human beings what we want a computer to do."
+% VERIFIED: full-text PDF read (p. 97); defines exactly the practice the
+%   appendix follows (WEB's descendants: noweb).
+% DATE: 2026-07-14
+@article{LiterateProgramming,
+  author =	 {Donald E. Knuth},
+  title =	 {Literate Programming},
+  journal =	 {The Computer Journal},
+  volume =	 {27},
+  number =	 {2},
+  pages =	 {97--111},
+  year =	 {1984},
+  doi =		 {10.1093/comjnl/27.2.97},
+}
+
 % Companion papers (self-references; no external verification needed).
 @unpublished{VTProgMisconceptions,
   title={Introductory programming through the lens of variation theory},

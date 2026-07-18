@@ -36,9 +36,83 @@ Not yet verified at full text (tracked in the course repository's issues
 \autocite{BenAri1998Constructivism}.
 
 \subsection{Phase two: systematic round}
+\label{sec:phase-two}
 
-% TODO(#1): To be run and documented here, mirroring the companion paper's
-% appendix. Because of the phase-one gap, the queries must cover adjacent
-% literatures: markup languages in education (HTML/Markdown), compiler
-% and error-message comprehension, end-user programming of documents, and
-% WYSIWYG-vs-source editing studies.
+The systematic round (2026-07-18) was run with the \texttt{scholar} tool
+against DBLP, OpenAlex and Semantic Scholar (\texttt{s2}), with abstracts
+read from OpenAlex (via \texttt{scholar} and, for one source, the Semantic
+Scholar Graph API).
+Because phase one established that the LaTeX-specific learner literature is
+empty, this round targeted five adjacent or repeat areas:
+(a)~markup languages in education;
+(b)~comprehension of compiler and programming error messages;
+(c)~end-user programming of documents;
+(d)~WYSIWYG-versus-source editing; and
+(e)~a repeat attempt at LaTeX-specific learner studies.
+Screening kept a source only if its abstract, read in full, \emph{entailed}
+a claim used in the text at the strength the source supports; adjacent-%
+literature sources were additionally required to yield a finding
+transferable to LaTeX, and the chapter prose marks every such transfer as a
+conjecture.
+
+The queries that retained sources:
+\begin{itemize}
+  \item \texttt{scholar search "compiler error messages novice programmers
+    comprehension" -p dblp -p openalex} (b)---retained
+    \autocite{Munson2016CompilerErrors,Traver2010CompilerErrors,%
+    Prather2017Interaction}, and \autocite{Ko2004Barriers} (c), which also
+    surfaced here.
+  \item \texttt{scholar search "enhanced error messages students
+    introductory programming" -p dblp -p openalex} (b)---retained
+    \autocite{Becker2016CEM,Denny2021ErrorReadability}.
+  \item \texttt{scholar search "teaching HTML students misconceptions web
+    development" -p s2} (a)---retained \autocite{Kharchenko2025WebDesign}.
+\end{itemize}
+
+The queries that returned nothing retainable, recorded for reproducibility:
+\begin{itemize}
+  \item Repeat LaTeX-specific attempts (e):
+    \texttt{scholar search "learning LaTeX typesetting students novice" -p
+    dblp -p openalex} and \texttt{scholar search "learning teaching LaTeX
+    students difficulties" -p dblp -p openalex} returned only
+    \autocite{Knauff2014Latex} (already held) and a non-empirical
+    LaTeX-workshop experience report; no learner-difficulty study.
+  \item Markup in education (a):
+    \texttt{scholar search "teaching markup language HTML education
+    learning" -p dblp -p openalex},
+    \texttt{"students learning HTML markup separation content
+    presentation" -p openalex},
+    \texttt{"teaching HTML CSS students structure presentation" -p dblp -p
+    openalex} and \texttt{"markup language learning students education" -p
+    openalex}---off-topic hits or empty result sets.
+  \item WYSIWYG-versus-source (d):
+    \texttt{scholar search "WYSIWYG versus markup document editing
+    comparison" -p dblp -p openalex} and \texttt{"word processor users
+    formatting styles structure novice" -p openalex}---returned tool papers
+    (wikis, Markdown pipelines, HTML-article formats) but no learner study.
+  \item End-user document authoring (c):
+    \texttt{scholar search "end-user structured document authoring word
+    processing styles" -p dblp -p openalex} and
+    \texttt{"novice compilation behaviour error quotient Jadud" -p dblp -p
+    openalex}---empty.
+  \item Research-question-driven queries via \texttt{scholar rq} (for (b)
+    and (a), e.g.\ the generated query \texttt{novice programmers learning
+    difficulties understanding compiler error messages OR interpreter error
+    messages}) produced no additional retainable papers: OpenAlex was
+    rate-limiting (HTTP~429) during the session and DBLP returned nothing to
+    classify.
+\end{itemize}
+
+Two conclusions follow.
+First, the LaTeX-specific-learner-study gap is \emph{confirmed}: a second,
+systematic round again found no study of how learners (mis)understand
+LaTeX's compile model, errors, or semantic markup.
+The paper must therefore build its catalogue from the adjacent literatures
+retained above and from our own course data
+(\cref{sec:method-course-data}).
+Second, the adjacent literatures divide unevenly: comprehension of
+programming error messages is well developed and transfers cleanly to
+\cref{sec:errors}, whereas markup-in-education and end-user document
+authoring are themselves thin---even for HTML and CSS
+\autocite{Kharchenko2025WebDesign}---so \cref{sec:markup} leans
+correspondingly harder on the course data.
