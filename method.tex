@@ -1,0 +1,63 @@
+\mode*
+\section{Method}
+
+This study has two parts, mirroring the companion paper
+\autocite{VTProgMisconceptions}.
+The first is a \emph{literature review} that maps learners' misconceptions
+and difficulties with LaTeX, answering \cref{rq:misconceptions}:
+
+\rqmisconceptions*
+
+The second is an \emph{analysis} of those difficulties through the lens of
+variation theory: they are treated as phenomenographic observations from
+which we identify critical aspects (\cref{rq:aspects}) and construct
+patterns of variation (\cref{rq:patterns}):
+
+\rqaspects*
+\rqpatterns*
+
+\Cref{rq:misconceptions} is answered by the review (and, given the
+literature gap, by our own course data); \cref{rq:aspects,rq:patterns} are
+answered analytically, and their answers are validated by argument
+(inference to the best explanation), not yet empirically.
+
+\subsection{Literature review}
+\label{sec:method-litreview}
+
+The review has two phases.
+The first phase is a seed round: a claim-driven search conducted for the
+course-development work this paper grows out of, with every retained
+reference verified against at least its abstract and recorded with full
+provenance; the protocol and queries are in \cref{app:protocol}.
+That round found \emph{no} studies of LaTeX-specific misconceptions---only
+the efficiency comparison \autocite{Knauff2014Latex}.
+The second phase is a systematic, tool-supported multi-database search
+with the \texttt{scholar} tool, as in the companion papers
+\autocite{VTProgMisconceptions,VTDebug}; given the phase-one gap it must
+also cover adjacent literatures: markup languages in education, compiler
+error messages, and end-user programming of documents.
+% TODO: Run the systematic phase.
+
+\subsection{Course data}
+\label{sec:method-course-data}
+
+% TODO: Because the literature is thin, plan the course-data collection
+% explicitly: datintro's LaTeX lab grading output and tutoring
+% observations as sources of documented difficulties, collected and coded
+% under an agreed scheme. Keep the classification sources separate from
+% any data they are later correlated with.
+
+\subsection{Variation-theory analysis}
+\label{sec:method-vt-analysis}
+
+For each documented difficulty we ask: which aspect had the learner not
+discerned?
+Aspects recurring across difficulties are candidate critical aspects.
+For each critical aspect we construct patterns of variation---contrast,
+generalisation, fusion---following the companion paper
+\autocite{VTProgMisconceptions}.
+LaTeX affords the vary-and-observe loop
+\autocite{Svensson2020Affordances,ThuneEckerdal2009Variation,
+ThuneEckerdal2018Lab} in a particularly clean form: change one thing in
+the source, recompile, observe the output---source diff against output
+diff.

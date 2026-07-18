@@ -1,0 +1,44 @@
+\mode*
+\section{Search and verification protocol}
+\label{app:protocol}
+
+This appendix documents the literature searches behind the references, for
+reproducibility, following the protocol of the companion paper
+\autocite[App.~literature protocol]{VTProgMisconceptions}: every reference
+was found by a recorded query, read at least at abstract level, and
+recorded with a provenance block (claim, query, selection rationale,
+verbatim supporting quote, verification level) directly above its entry in
+\texttt{misconceptions.bib}.
+
+\subsection{Phase one: seed round (2026-07-18)}
+
+The seed round was a claim-driven search conducted with the
+\texttt{scholar} tool against DBLP, OpenAlex, and Semantic Scholar
+(Semantic Scholar was rate-limited during part of the session), with
+abstracts fetched via the OpenAlex API.
+The queries whose results were retained for this paper:
+
+\begin{itemize}
+  \item \texttt{scholar search "latex word document preparation comparison" -p s2 -p openalex}
+  \item \texttt{scholar search "black box inside glass box presenting computing concepts" -p openalex -p dblp}
+  \item \texttt{scholar search "Sorva notional machines introductory programming" -p dblp -p openalex}
+  \item \texttt{scholar search "Ben-Ari constructivism" -p dblp}
+  \item \texttt{scholar search "difficulties of learning to program du Boulay" -p openalex}
+  \item \texttt{scholar search '"variation theory" computer programming' -p openalex}
+\end{itemize}
+
+The central negative result of this round: no studies of LaTeX-specific
+learner misconceptions were found; the LaTeX-related hits beyond
+\autocite{Knauff2014Latex} were off-topic (accessibility, general
+tutorials, or chemistry).
+Not yet verified at full text (tracked in the course repository's issues
+\#124--\#125): \autocite{DuBoulay1981BlackBox},
+\autocite{BenAri1998Constructivism}.
+
+\subsection{Phase two: systematic round}
+
+% TODO: To be run and documented here, mirroring the companion paper's
+% appendix. Because of the phase-one gap, the queries must cover adjacent
+% literatures: markup languages in education (HTML/Markdown), compiler
+% and error-message comprehension, end-user programming of documents, and
+% WYSIWYG-vs-source editing studies.

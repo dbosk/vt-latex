@@ -1,0 +1,47 @@
+\mode*
+\section{The compile model}
+\label{sec:compilation}
+
+The first educational objective is the model that separates LaTeX from the
+word processor: the document is \emph{source text}; the typeset result is
+a distinct artifact produced by \emph{compilation}; what you see is not
+what you edit.
+
+\subsection{Documented difficulties}
+
+The seed round found no studies of how learners (mis)understand the
+compile model---the central gap this paper must fill (cf.\
+\cref{sec:method-course-data}).
+What the controlled comparison shows is consistent with a costly model
+shift: users of the source-based system were slower and made more errors
+on tasks where the WYSIWYG model suffices, while the source-based system
+won on equations \autocite{Knauff2014Latex}.
+% TODO: Course-data collection (datintro LaTeX lab) to document the
+% actual difficulties: e.g. editing the PDF-viewer window, recompiling
+% never, or treating error output as terminal failure. These must be
+% observed and coded, not assumed.
+
+\subsection{Candidate critical aspects}
+
+% XXX Preliminary; to be grounded in course data.
+\begin{itemize}
+  \item \emph{Two artifacts, one direction}: edits happen in the source;
+    the output is derived, never edited.
+  \item \emph{The compiler reads, it does not watch}: nothing changes
+    until you recompile.
+  \item \emph{Whitespace and characters mean things}: the source is a
+    formal language, not decorated text.
+\end{itemize}
+
+\subsection{Patterns of variation}
+
+\begin{itemize}
+  \item Contrast (system varies, document invariant): produce the same
+    short document in a word processor and in LaTeX; locate where each
+    stores \enquote{bold}.
+  \item Contrast (source varies minimally): change one token, recompile,
+    diff the output.
+  \item Generalisation (model invariant, editor varies): the same
+    source compiled from Overleaf and from the command line---the model,
+    not the editor, is the invariant.
+\end{itemize}

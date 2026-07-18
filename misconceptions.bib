@@ -1,0 +1,229 @@
+% Misconception and mental-model references, seeded from
+% introtools:literature/mental-models.bib (2026-07-18 search round).
+% Every entry carries a provenance block per the backing-claims protocol;
+% VERIFIED lines marked TODO need a manual full-text check before citing
+% the affected inner claims (tracked in introtools issues #124--#126).
+
+% === provenance: Knauff2014Latex ===
+% CLAIM: In a controlled comparison, LaTeX users were slower and produced more
+%   formatting, orthographical and grammatical errors than Word users on
+%   continuous and tabular text (experts included), yet LaTeX users reported
+%   enjoying their tool more.
+% FOUND-VIA: scholar search "latex word document preparation comparison" -p s2 -p openalex
+% PICKED: the only controlled efficiency study of LaTeX vs word processors
+%   (n=40, PLOS ONE, open access); widely discussed, so cite with its scope
+%   limits (text-typing tasks; equations were LaTeX's strong case).
+% QUOTE (abstract): "LaTeX users were slower than Word users, wrote less text
+%   in the same amount of time, and produced more typesetting, orthographical,
+%   grammatical, and formatting errors. [...] LaTeX users, however, more often
+%   report enjoying using their respective software."
+% VERIFIED: abstract read (OpenAlex); OA full text at PLOS. Note the study is
+%   about professionals/academics, not students, and the equation condition
+%   favored LaTeX -- do not over-claim.
+% DATE: 2026-07-18
+@article{Knauff2014Latex,
+  title={An Efficiency Comparison of Document Preparation Systems Used in Academic Research and Development},
+  author={Knauff, Markus and Nejasmic, Jelica},
+  journal={PLoS ONE},
+  volume={9},
+  number={12},
+  pages={e115069},
+  year={2014},
+  doi={10.1371/journal.pone.0115069},
+}
+
+% === provenance: DuBoulay1981BlackBox ===
+% CLAIM: Origin of the "notional machine": novices should be shown a
+%   conceptually simple, observable model of the machine (the "glass box")
+%   rather than an opaque black box.
+% FOUND-VIA: scholar search "black box inside glass box presenting computing concepts" -p openalex -p dblp
+% PICKED: the primary/origin source for the notional-machine idea (1981;
+%   IJHCS reprint 1999).
+% QUOTE: TODO -- full text not accessible this session (figshare record holds
+%   metadata only; publisher paywalled).
+% VERIFIED: TODO -- attribution cross-checked only indirectly: Sorva (2013,
+%   verified abstract) reviews the literature "in relation to the concept of a
+%   'notional machine'---an abstract computer for executing programs of a
+%   particular kind" and the term is standardly attributed to this paper.
+%   Read the full text before quoting specifics.
+% DATE: 2026-07-18
+@article{DuBoulay1981BlackBox,
+  title={The black box inside the glass box: presenting computing concepts to novices},
+  author={du Boulay, Benedict and O'Shea, Tim and Monk, John},
+  journal={International Journal of Man-Machine Studies},
+  volume={14},
+  number={3},
+  pages={237--249},
+  year={1981},
+  note={Reprinted in Int. J. Human-Computer Studies 51(2):265--277, 1999},
+  doi={10.1006/ijhc.1981.0309},
+}
+
+% === provenance: Sorva2013NotionalMachines ===
+% CLAIM: The research literature identifies the notional machine -- an
+%   abstract computer for executing programs -- as a major challenge for
+%   novices, and instructors should make it an explicit learning objective.
+% FOUND-VIA: scholar search "Sorva notional machines introductory programming" -p dblp -p openalex
+% PICKED: the canonical review article (TOCE) synthesizing misconception,
+%   mental-model, constructivist, phenomenographic and threshold-concept
+%   research around the notional machine.
+% QUOTE (abstract): "As a whole, the literature points to notional machines as
+%   a major challenge in introductory programming education. It is argued that
+%   instructors should acknowledge the notional machine as an explicit
+%   learning objective and address it in teaching."
+% VERIFIED: abstract read (OpenAlex); entails the claim at survey strength.
+% DATE: 2026-07-18
+@article{Sorva2013NotionalMachines,
+  title={Notional machines and introductory programming education},
+  author={Sorva, Juha},
+  journal={ACM Transactions on Computing Education},
+  volume={13},
+  number={2},
+  pages={8:1--8:31},
+  year={2013},
+  doi={10.1145/2483710.2483713},
+}
+
+% === provenance: BenAri1998Constructivism ===
+% CLAIM: Constructivist analysis applies to CS education: students construct
+%   their knowledge, so effective CS teaching must account for the model of
+%   the computer that students bring or lack.
+% FOUND-VIA: scholar search "Ben-Ari constructivism" -p dblp
+% PICKED: the standard constructivism-in-CSE reference (SIGCSE 1998).
+% QUOTE (abstract): "Constructivism is a theory of learning which claims that
+%   students construct knowledge rather than merely receive and store
+%   knowledge transmitted by the teacher. [...] This paper surveys
+%   constructivism in the context of CSE".
+% VERIFIED: abstract only (OpenAlex); ACM PDF not accessible this session.
+%   TODO: the famous inner claim that a beginning student "has no effective
+%   model of a computer" must be verified against the full text before being
+%   quoted or attributed.
+% DATE: 2026-07-18
+@inproceedings{BenAri1998Constructivism,
+  title={Constructivism in computer science education},
+  author={Ben-Ari, Mordechai},
+  booktitle={Proceedings of the 29th SIGCSE Technical Symposium on Computer Science Education},
+  publisher={ACM},
+  year={1998},
+  pages={257--261},
+  doi={10.1145/273133.274308},
+}
+
+% === provenance: QianLehman2017Misconceptions ===
+% CLAIM: Novice programming difficulties are related to, among other factors,
+%   inaccurate mental models and students' prior knowledge.
+% FOUND-VIA: scholar search "difficulties of learning to program du Boulay" -p openalex
+% PICKED: recent literature review (TOCE) of misconceptions in introductory
+%   programming; appropriate survey-strength source.
+% QUOTE (abstract): "These difficulties experienced by students are related to
+%   many factors including unfamiliarity of syntax, natural language, math
+%   knowledge, inaccurate mental models, lack of strategies, programming
+%   environments, and teachers' knowledge and instruction."
+% VERIFIED: abstract read (OpenAlex); OA at ACM.
+% DATE: 2026-07-18
+@article{QianLehman2017Misconceptions,
+  title={Students' Misconceptions and Other Difficulties in Introductory Programming: A Literature Review},
+  author={Qian, Yizhou and Lehman, James},
+  journal={ACM Transactions on Computing Education},
+  volume={18},
+  number={1},
+  pages={1:1--1:24},
+  year={2017},
+  doi={10.1145/3077618},
+}
+
+% === provenance: ThuneEckerdal2009Variation ===
+% CLAIM: Variation theory has been applied to students' conceptions of
+%   programming, and designed patterns of variation were successfully used in
+%   a computer lab assignment.
+% FOUND-VIA: scholar search '"variation theory" computer programming' -p openalex
+% PICKED: primary source applying phenomenography + variation theory to
+%   programming for non-CS engineering students -- closest population match to
+%   datintro (mandatory tool course for non-majors).
+% QUOTE (abstract): "it is suggested how to use patterns of variation in order
+%   to support students' learning of computer programming. Finally, results
+%   from a pilot study demonstrate the successful application of two patterns
+%   of variation in a computer lab assignment."
+% VERIFIED: abstract read (OpenAlex); entails the claim (pilot-study strength).
+% DATE: 2026-07-18
+@article{ThuneEckerdal2009Variation,
+  title={Variation theory applied to students' conceptions of computer programming},
+  author={Thun{\'e}, Michael and Eckerdal, Anna},
+  journal={European Journal of Engineering Education},
+  volume={34},
+  number={4},
+  pages={339--347},
+  year={2009},
+  doi={10.1080/03043790902989374},
+}
+
+% === provenance: ThuneEckerdal2018Lab ===
+% CLAIM: Variation theory and phenomenography provide an approach for
+%   analyzing how learning of theory and practice interact in computer lab
+%   sessions, to inform the design of lab exercises.
+% FOUND-VIA: scholar search '"variation theory" computer programming' -p openalex
+% PICKED: follow-up methodological paper by the same group; directly relevant
+%   because datintro's learning happens almost entirely in lab-like settings.
+% QUOTE (abstract): "To be able to improve the process of designing such
+%   exercises, there is a need of a more detailed understanding of the
+%   interaction between learning of theory and learning of practice in
+%   laboratory sessions. In this paper, an approach for investigating this
+%   interaction is proposed. Theoretically, the approach is based on
+%   phenomenography and variation theory."
+% VERIFIED: abstract read (OpenAlex); OA via T&F.
+% DATE: 2026-07-18
+@article{ThuneEckerdal2018Lab,
+  title={Analysis of Students' learning of computer programming in a computer laboratory context},
+  author={Thun{\'e}, Michael and Eckerdal, Anna},
+  journal={European Journal of Engineering Education},
+  volume={44},
+  number={5},
+  pages={769--786},
+  year={2018},
+  doi={10.1080/03043797.2018.1544609},
+}
+
+% === provenance: Svensson2020Affordances ===
+% CLAIM: Programming affords learning by letting students open up and explore
+%   dimensions of variation: varying aspects of a program and discerning the
+%   effects supports meaning-making (variation-theory analysis).
+% FOUND-VIA: scholar search '"variation theory" computer programming' -p openalex
+% PICKED: recent peer-reviewed application of variation theory to
+%   programming-based learning (PRPER, open access); useful as a model for
+%   designing vary-and-observe exercises in the terminal module.
+% QUOTE (abstract): "By varying aspects and discerning how these changes
+%   affect the program, students can construct meaning about the system. [...]
+%   the ease of varying and iterating aspects, and the ability to enter into a
+%   loop of discovery and understanding."
+% VERIFIED: abstract read (OpenAlex); OA at APS.
+% DATE: 2026-07-18
+@article{Svensson2020Affordances,
+  title={Programming and its affordances for physics education: A social semiotic and variation theory approach to learning physics},
+  author={Svensson, Kim and Eriksson, Urban and Pendrill, Ann-Marie},
+  journal={Physical Review Physics Education Research},
+  volume={16},
+  number={1},
+  pages={010127},
+  year={2020},
+  doi={10.1103/physrevphyseducres.16.010127},
+}
+
+% Companion papers (self-references; no external verification needed).
+@unpublished{VTProgMisconceptions,
+  title={Introductory programming through the lens of variation theory},
+  author={Soori, Araz and Bosk, Daniel},
+  note={Work in progress},
+  year={2026},
+}
+@unpublished{VTDebug,
+  title={Debugging through the lens of variation theory: is debugging skill the deep approach to learning?},
+  author={Bosk, Daniel},
+  note={Work in progress},
+  year={2026},
+}
+@unpublished{VTTerminal,
+  title={The terminal through the lens of variation theory: misconceptions and critical aspects of the Unix shell},
+  author={Bosk, Daniel},
+  note={Work in progress},
+  year={2026},
+}

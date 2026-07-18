@@ -1,0 +1,41 @@
+\mode*
+\section{Semantic markup}
+\label{sec:markup}
+
+The third educational objective is markup as \emph{meaning}: sections,
+emphasis, quotations, cross-references and citations declare what things
+\emph{are}; how they \emph{look} is decided elsewhere.
+
+\subsection{Documented difficulties}
+
+The seed round found no studies of learners' understanding of semantic
+versus presentational markup.
+% TODO: The systematic phase should look at markup/HTML education studies
+% and end-user document structuring; course data (datintro LaTeX lab
+% grading, which specifically checks semantic-markup use) supplies the
+% local observations.
+
+\subsection{Candidate critical aspects}
+
+% XXX Preliminary.
+\begin{itemize}
+  \item \emph{Say what it is, not how it looks}: \verb|\section| versus
+    large bold text; \verb|\emph| versus italics.
+  \item \emph{One declaration, many appearances}: the same source
+    renders differently under a different class or style.
+  \item \emph{References are relations}: \verb|\ref|/\verb|\cite| link to
+    things, and the compiler maintains the links.
+\end{itemize}
+
+\subsection{Patterns of variation}
+
+\begin{itemize}
+  \item Contrast (markup varies, appearance invariant): a hand-formatted
+    \enquote{heading} (bold, large) next to \verb|\section|---identical
+    look, then observe the table of contents and numbering diverge.
+  \item Contrast (style varies, markup invariant): compile the same
+    semantically marked-up source under two document classes.
+  \item Fusion: renumber by inserting a section early in the
+    document---automatic numbering, references and table of contents all
+    update.
+\end{itemize}

@@ -1,0 +1,44 @@
+\mode*
+\section{Errors and debugging the document}
+\label{sec:errors}
+
+The second educational objective is error handling: reading TeX's error
+messages, locating the offending source, and the recompile loop as a
+debugging loop.
+
+\subsection{Documented difficulties}
+
+The seed round found no LaTeX-specific studies of error handling by
+learners.
+% TODO: The systematic phase should search the compiler-error-message
+% literature (well developed for programming) for transferable findings,
+% and the course's TeX-error material needs (introtools issue #119) supply
+% the teaching-side requirements.
+% TODO: Course data: which TeX errors stop datintro students, and what do
+% they do next?
+
+\subsection{Candidate critical aspects}
+
+% XXX Preliminary.
+\begin{itemize}
+  \item \emph{An error message is information}: it names a place and a
+    cause, in that order of reliability.
+  \item \emph{The first error counts}: later errors are often
+    consequences.
+  \item \emph{Errors are normal}: the recompile loop is the working mode,
+    not a failure mode. (Debugging as learning: cf.\ the companion paper
+    \autocite{VTDebug}.)
+\end{itemize}
+
+\subsection{Patterns of variation}
+
+\begin{itemize}
+  \item Contrast (one defect varies): plant a single defect (missing
+    brace, misspelled command, missing package) in an otherwise working
+    document; read the message each produces.
+  \item Generalisation (defect invariant, document varies): the same
+    missing-brace error in different documents---the message's shape is
+    the invariant to discern.
+  \item Fusion: two planted defects; find and fix both using
+    first-error-first.
+\end{itemize}

@@ -1,0 +1,78 @@
+\mode*
+\section{Introduction}
+
+LaTeX is the standard tool for technical writing in large parts of science
+and engineering, and many curricula introduce it early.
+Unlike introductory programming, however, learners' difficulties with
+LaTeX are barely researched.
+The one controlled comparison we found is sobering: LaTeX users---experts
+included---were slower and produced more typesetting, orthographical,
+grammatical and formatting errors than Word users on continuous and
+tabular text, although they reported enjoying their tool more, and
+equation-heavy text was LaTeX's strong case \autocite{Knauff2014Latex}.
+For teaching, this cuts two ways: the learning curve is real and must be
+budgeted for, and the honest motivation for LaTeX is not general
+efficiency but equations, structure, and versionable plain text.
+
+\mode<presentation>{%
+\begin{frame}
+  \begin{block}{LaTeX and learners}
+    \begin{itemize}
+      \item Widely required, barely researched.
+      \item Controlled comparison: slower, more errors than Word on plain
+        text; stronger on equations; more enjoyment
+        \autocite{Knauff2014Latex}.
+      \item Honest motivation: equations, structure, plain text---not
+        general speed.
+    \end{itemize}
+  \end{block}
+\end{frame}%
+}
+
+The learner also arrives with a strong prior model: the WYSIWYG word
+processor, where the document \emph{is} what the screen shows.
+LaTeX breaks that model---source and output are distinct artifacts related
+by compilation---much as the notional machine of programming breaks the
+everyday model of the computer
+\autocite{Sorva2013NotionalMachines,DuBoulay1981BlackBox}; difficulties
+tied to inaccurate mental models are well documented for programming
+\autocite{QianLehman2017Misconceptions,BenAri1998Constructivism}, and we
+conjecture the same mechanism here.
+
+In this work we apply the approach of our companion paper on introductory
+programming \autocite{VTProgMisconceptions}: we treat documented
+difficulties as the phenomenographic observations for a variation-theory
+analysis \autocite{NCOL}, identify the critical aspects learners must
+discern, and outline patterns of variation to teach them.
+We cover the compile model, error handling, and semantic markup.
+
+We ask the following research questions.
+
+\begin{frame}
+\begin{restatable}{question}{rqmisconceptions}\label{rq:misconceptions}
+  Which misconceptions and difficulties with LaTeX---the compile model,
+  error handling, and semantic markup---do the literature and our course
+  data document?
+\end{restatable}
+
+\begin{restatable}{question}{rqaspects}\label{rq:aspects}
+  Which critical aspects of document preparation with LaTeX do these
+  misconceptions and difficulties point to?
+\end{restatable}
+
+\begin{restatable}{question}{rqpatterns}\label{rq:patterns}
+  Which patterns of variation can make these critical aspects discernible
+  to learners?
+\end{restatable}
+\end{frame}
+
+Our contributions are:
+a review of the (scarce) literature on learners' difficulties with LaTeX,
+answering \cref{rq:misconceptions};
+a variation-theory analysis identifying the critical aspects, answering
+\cref{rq:aspects};
+and a set of patterns of variation for teaching LaTeX, answering
+\cref{rq:patterns}.
+% TODO: Given the literature gap, this paper will need our own course data
+% (datintro LaTeX lab grading and tutoring observations) more than the
+% companions do; plan that data collection explicitly in the method.
