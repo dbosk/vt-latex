@@ -116,3 +116,19 @@ programming error messages is well developed and transfers cleanly to
 authoring are themselves thin---even for HTML and CSS
 \autocite{Kharchenko2025WebDesign}---so \cref{sec:markup} leans
 correspondingly harder on the course data.
+
+\subsection{Extended-database round (2026-07-19)}
+
+The rounds above searched only the keyless providers (DBLP, OpenAlex,
+Semantic Scholar); Web of Science, Scopus and IEEE~Xplore were configured
+but unused.
+This round repeated the LaTeX-learner query across all providers:
+\texttt{scholar search "LaTeX students learning document preparation
+difficulties" -p wos -p scopus} returned nothing on-topic (accessibility
+equation editors, exam tooling): the central negative result ---
+\emph{no LaTeX-specific learner study} --- now also holds across Web of
+Science and Scopus, which index the education venues the CS-specific
+databases miss.
+Natural-language queries rank noticeably worse in Web of Science and
+Scopus than in the CS-specific indexes; a future round should use their
+field-tagged syntax (\texttt{scholar syntax}).
