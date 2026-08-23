@@ -48,7 +48,8 @@ prose article (`article.tex`, memoir + beamerarticle) and once as Beamer
 slides (`slides.tex`). Both input the same `preamble.tex` and the same
 content files (`introduction.tex`, `background.tex`, `method.tex`,
 `compilation.tex`, `errors.tex`, `markup.tex`, `related-work.tex`,
-`conclusions.tex`, `search-protocol.tex`).
+`conclusions.tex`). The article alone appends `quiz.tex` (woven from
+`quiz.nw`, see below) and `search-protocol.tex`.
 
 Consequences when editing content files:
 
@@ -73,10 +74,52 @@ text-typing tasks, equations favoured LaTeX. Entries with `VERIFIED: TODO`
 `theory.bib` holds the variation-theory base (NCOL etc.), shared with the
 companion papers.
 
+## The instrument (`quiz.nw`)
+
+`quiz.nw` is a literate program (noweb; `make programs` tangles
+`quiz-knowledge-{start,end}.json` and `analyze_quiz.py`, all gitignored).
+Each quiz has an opener (consent / preparation, position 1), six open
+essay items (positions 3–8, the phenomenographic accounts — placed
+*before* the closed items and shown one at a time without backtracking so
+the distractors cannot seed the accounts) and the closed knowledge items
+(positions 11–21, one per candidate critical aspect in chapter order, plus
+a second item for *references are relations*; item 11, *where the change
+goes*, is the closed twin of open item 4 and is in the end quiz only, so
+the start quiz has 10 closed items and the end quiz 11). Canvas New-Quiz
+settings: `multiple_attempts` and `result_view_settings` are *nested*
+objects inside `quiz_settings` (flat keys are silently dropped by Canvas);
+the start quiz hides correctness, correct answers and item feedback, the
+end quiz shows them all. Every item carries `feedback.neutral`: for closed
+items why the key is right and what each distractor assumes, for open
+items a *provisional* outcome space (ordered levels posited from the
+aspects; replace with the empirical one after cohort 1, issue #5); the
+analysis program ignores it. The two JSONs carry canvaslms `modules` specs: each quiz is the sole,
+must-submit item of its own datintro26 module ("LaTeX pre-test" / "LaTeX
+post-test") bracketing the "Report writing" module, and the appendix prose
+gives the `modules create`/`modules edit --prerequisite` commands that
+chain pre-test → Report writing → post-test. Deployed to datintro26
+2026-08-23 (quizzes 394099/394100; the module positions in the appendix
+commands are those at deployment time and shift as other quizzes are
+inserted — re-list before reusing them), unpublished; the teacher
+publishes. Consent wording pending the ethics
+application (issue #4).
+Items are keyed by title in the Canvas report (substring match — no title
+may be a substring of another); `analyze_quiz.py` reads the answer key
+from the tangled **end**-quiz JSON, filters by consent, prints per-item
+facility and distractor counts, paired pre/post gains (`--quiz both
+--results start.csv end.csv`) and writes a long-format coding sheet for
+the accounts (optional `--llm` pre-coding in separate `suggested_*`
+columns). It fetches from every course in `COURSES` (datintro26 plus the
+CS programme's parallel course, where the module is copied by hand;
+exact 2026 code unconfirmed, issue #6), tagging rows by course. It
+imports `canvaslms` only when fetching from Canvas; run it with the pipx
+interpreter (`~/.local/pipx/venvs/canvaslms/bin/python`) for that. Activate the `literate-programming` skill before editing `quiz.nw`.
+
 ## State of the paper
 
-Scaffold stage: research questions, method skeleton (including a planned
-course-data phase), seeded literature, and preliminary aspect/pattern
-analyses per chapter are in place. The systematic literature-search phase
-(phase two in `search-protocol.tex`) has not run yet; `% TODO`/`% XXX`
-comments mark the open work.
+Draft v1 plus the deployment round: research questions, method (literature
+review, course-data stub, variation-theory analysis, course instruments),
+the systematic search rounds (all documented in `search-protocol.tex`,
+confirming the LaTeX-specific gap), preliminary aspect/pattern analyses per
+chapter, and the pre/post-test appendix above. `% TODO`/`% XXX` comments
+mark the open work and are mirrored as GitHub issues.

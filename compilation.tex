@@ -16,22 +16,82 @@ What the controlled comparison shows is consistent with a costly model
 shift: users of the source-based system were slower and made more errors
 on tasks where the WYSIWYG model suffices, while the source-based system
 won on equations \autocite{Knauff2014Latex}.
+The nearest learner evidence is from a neighbouring markup language:
+students in a first web-development course \enquote{grappled with the
+formal nature of [the] notation}, making \enquote{minute errors with case
+sensitivity, white space, and missing delimiters}---a formality that
+\enquote{contrasts with the flexibility not only of natural language, but
+also of popular computing systems like word processors}
+\autocite{Park2011WebDev}\footnote{Quoted from the dissertation reporting
+the same study \autocite[p.~61]{Park2014openHTML}.}---and the same line of
+work notes that WYSIWYG editors \enquote{can lead to a misapplication of
+analogy, where learners intuit more than is warranted from the document
+metaphor} \autocite[p.~38]{Park2014openHTML}.
 % TODO(#2): Course-data collection (datintro LaTeX lab) to document the
 % actual difficulties: e.g. editing the PDF-viewer window, recompiling
 % never, or treating error output as terminal failure. These must be
 % observed and coded, not assumed.
 
 \subsection{Candidate critical aspects}
+\label{sec:compilation-aspects}
 
-% XXX Preliminary; to be grounded in course data.
-\begin{itemize}
-  \item \emph{Two artifacts, one direction}: edits happen in the source;
-    the output is derived, never edited.
-  \item \emph{The compiler reads, it does not watch}: nothing changes
-    until you recompile.
-  \item \emph{Whitespace and characters mean things}: the source is a
-    formal language, not decorated text.
-\end{itemize}
+Reading the difficulties above for the aspect the learner had not
+discerned gives four candidates.
+Because no study of learners and the compile model exists, we say for
+each what it rests on: a documented difficulty in the literature, an
+observation from our own course, or the structure of the object of
+learning itself.
+
+\begin{description}
+  \item[Two artifacts, one direction]
+    Edits happen in the source; the output is derived from it, never
+    edited.
+    No study documents the opposite conception for LaTeX; the aspect is
+    posited from the object of learning and from the prior model the
+    learners bring, whose document metaphor invites them to
+    \enquote{intuit more than is warranted}
+    \autocite[p.~38]{Park2014openHTML}, and whose cost when shifted the
+    controlled comparison shows for professionals
+    \autocite{Knauff2014Latex}.
+    Tested by the item \emph{where the change goes} and, at the start of
+    the module, by its open twin \emph{a mistake in the PDF}
+    (\cref{app:knowledge-items,app:open-items}).
+  \item[The compiler reads, it does not watch]
+    Nothing changes until the document is compiled again; the PDF is a
+    snapshot of the last run.
+    Posited from the object of learning: it is the single-window word
+    processor's live update that the learner has to unlearn, and no
+    study documents how.
+    Tested by the item \emph{after you edit} and its open twin \emph{the
+    PDF has not changed}.
+  \item[Whitespace and characters mean things]
+    The source is a formal language, not decorated text: runs of spaces
+    collapse, a blank line starts a paragraph, and a misplaced character
+    is an error.
+    Read off the finding that novices learning a markup language
+    \enquote{grappled with the formal nature of [the] notation}, making
+    \enquote{minute errors with case sensitivity, white space, and
+    missing delimiters} \autocite{Park2011WebDev}; the difficulty is
+    documented for HTML and CSS, and LaTeX's notation is at least as
+    formal.
+    Tested by the item \emph{spaces in the source}.
+  \item[Structure nests]
+    An environment opened with \verb|\begin| is closed by its \verb|\end|,
+    a brace by its partner, and what lies between belongs to it.
+    Read off the same study's finding that \enquote{hierarchies and
+    paths, nesting} are among the concepts the novices' difficulties turn
+    on \autocite{Park2011WebDev}, and off the existence of an instrument
+    for reading hierarchies in code that counts LaTeX among its
+    languages \autocite{Park2016Hierarchies}: the nested structure of the
+    source is the one part of the compile model whose difficulty has been
+    documented and measured.
+    Tested by the item \emph{a list inside a list}.
+\end{description}
+
+Two of the four rest on difficulties documented for a neighbouring markup
+language, none on a difficulty reported for LaTeX itself, because none
+has been reported (\cref{app:protocol}); the open accounts of
+\cref{sec:method-instruments} are where one would first show.
 
 \subsection{Patterns of variation}
 
@@ -44,4 +104,7 @@ won on equations \autocite{Knauff2014Latex}.
   \item Generalisation (model invariant, editor varies): the same
     source compiled from Overleaf and from the command line---the model,
     not the editor, is the invariant.
+  \item Contrast (nesting varies, items invariant): the same three
+    items as one flat list and as a list inside a list; the indentation
+    and the labels show what belongs to what.
 \end{itemize}

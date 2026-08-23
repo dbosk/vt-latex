@@ -1,0 +1,1609 @@
+\section{Setting up the diagnostic quizzes, literately}
+\label{app:quiz}
+
+This appendix is a literate program \autocite{LiterateProgramming}: the
+prose and the code are one and the same source, woven into the text you
+are reading and tangled into the files the computer runs.
+It implements the pre/post-test of \cref{sec:method-instruments}: two
+quizzes that collect two kinds of data before and after the LaTeX module.
+The closed items measure whether the students discern the candidate
+critical aspects of \cref{sec:compilation,sec:errors,sec:markup}; the open
+items collect the students' own accounts of what LaTeX is, of a mistake
+seen in the PDF, of a PDF that has not changed, of an error message, of
+two headings that look alike and of two question marks in the output,
+from which the phenomenographic analysis of \cref{sec:method-instruments}
+forms its categories of description.
+Three files are tangled from this section:
+[[quiz-knowledge-start.json]] and [[quiz-knowledge-end.json]], the
+descriptions of the two quizzes that the [[canvaslms]] tool pushes to
+Canvas, and [[analyze_quiz.py]], which fetches the results from Canvas,
+summarises the closed items and writes the open accounts to a coding
+sheet.
+
+\subsection{The two quizzes for Canvas}
+
+The learning platform of the course is Canvas, and the [[canvaslms]]
+command-line tool creates the quizzes from their JSON descriptions:
+\begin{minted}{bash}
+canvaslms modules create -c datintro26 -p 6 "LaTeX pre-test"
+canvaslms modules create -c datintro26 -p 8 "LaTeX post-test"
+canvaslms quizzes create -c datintro26 -f quiz-knowledge-start.json
+canvaslms quizzes create -c datintro26 -f quiz-knowledge-end.json
+canvaslms modules edit -c datintro26 \
+  --prerequisite "^Collaboration$" --prerequisite "^LaTeX pre-test$" \
+  "^Report writing$"
+canvaslms modules edit -c datintro26 \
+  --prerequisite "^Report writing$" "^LaTeX post-test$"
+\end{minted}
+Each quiz is the only item of a module of its own, created first: the
+pre-test module sits just before the module that holds the LaTeX
+material (\enquote{Report writing} in the course) and the post-test
+module just after it.
+The reason is that Canvas locks a module behind the completion of the
+modules it names as prerequisites, and only whole modules can be
+prerequisites.
+With the pre-test in its own module, the report-writing module can
+require it, so that no student reads the material before writing the
+pre-test; with the post-test in its own module, it can require the
+report-writing module, so that no student writes the post-test before
+the material.
+The last two commands set up exactly that chain; since editing a
+module's prerequisites replaces the whole list, the first of them
+restates the prerequisite the report-writing module already had.
+The placement is part of the quiz description, under the key
+[[modules]], which [[canvaslms]] reads and strips before it talks to
+Canvas: a module name, anchored so that the pre-test module cannot match
+the post-test module, the position within it, and the completion
+requirement---submitting the quiz---without which a module counts as
+complete the moment it is opened and the prerequisite would lock
+nothing.
+The modules and the quizzes are created unpublished; the teacher
+releases them when the module opens.
+A later change to this source is applied to the quizzes already in
+Canvas with [[canvaslms --no-cache quizzes edit -c datintro26 -f <file>]],
+which updates the settings and, with [[--replace-items]], replaces every
+item from the file; the module placement is untouched, and the tool stops
+to ask if any student has already submitted.
+([[--no-cache]] because the tool's cache of the course's quizzes does not
+yet know the quizzes the tool itself created; without it the quiz is
+\enquote{not found}.)
+The two quizzes share their open items and, with one exception explained
+with the item (\cref{app:knowledge-items}), their knowledge items; they
+differ in what opens them.
+The start-of-module quiz measures what the students bring to the module;
+the end-of-module quiz repeats the same items to measure the gain, and
+adds one question of its own---whether the student prepared---because
+preparation would confound that gain: a student who reviews the material
+the night before measures preparation, not what the module left behind.
+The quiz titles name LaTeX explicitly, since the course runs other
+diagnostic quizzes (on the terminal and on Git) that must stay
+distinguishable for students and analysis alike.
+The instructions warn that some questions ask for an account in the
+student's own words, so that a student who expects only multiple choice
+does not skip them as odd.
+
+<<[[quiz-knowledge-start.json]]>>=
+{
+  "quiz_type": "new",
+  "settings": {
+    "title": "LaTeX quiz: what you know already",
+    "instructions": "<p>This quiz checks what you already know about writing documents with LaTeX, so that we can adapt the course and, together with the quiz at the end of the module, measure how well the material works. The questions show short pieces of LaTeX, what comes out of it, and messages it prints; if you have not used LaTeX before, answer as well as you can&mdash;guessing is fine, and a low score is expected and completely okay. Six questions ask you to write in your own words; there are no wrong answers there, and they carry no points. You will see your score afterwards, but not the correct answers&mdash;the course will teach you those. The score does not affect your grade. Please answer on your own, without help from others or from tools.</p>",
+    "points_possible": 10,
+    <<start-quiz module>>
+    <<scheduling settings>>
+    "quiz_settings": {
+      <<interaction settings>>
+      <<start result view>>
+    }
+  },
+  "items": [
+    <<start-quiz consent item>>,
+    <<open items>>,
+    <<knowledge items>>
+  ]
+}
+@
+
+The end-of-module quiz carries the same open and knowledge items, so the
+two administrations measure the same discernment and collect comparable
+accounts; the opening item and the instructions differ, and the end quiz
+adds the closed twin of the open item on a mistake seen in the PDF,
+which the start quiz asks only in the open form
+(\cref{app:knowledge-items}).
+
+<<[[quiz-knowledge-end.json]]>>=
+{
+  "quiz_type": "new",
+  "settings": {
+    "title": "LaTeX quiz: what you know now",
+    "instructions": "<p>This quiz repeats the LaTeX questions from the start-of-module quiz, so that we can see what you have learned during the module. Six questions ask you to write in your own words; there are no wrong answers there, and they carry no points. Afterwards you will see your score and, for each question, the correct answer. The score does not affect your grade. Please answer on your own, without preparation, help or tools.</p>",
+    "points_possible": 11,
+    <<end-quiz module>>
+    <<scheduling settings>>
+    "quiz_settings": {
+      <<interaction settings>>
+      <<end result view>>
+    }
+  },
+  "items": [
+    <<end-quiz preparation item>>,
+    <<open items>>,
+    <<item: where the change goes>>,
+    <<knowledge items>>
+  ]
+}
+@
+
+The module keys name the modules created above; the quiz is the first
+and only item of its module, and the module is complete once the quiz
+is submitted.
+
+<<start-quiz module>>=
+"modules": [{"module": "^LaTeX pre-test$", "position": 1,
+             "completion_requirement": "must_submit"}],
+<<end-quiz module>>=
+"modules": [{"module": "^LaTeX post-test$", "position": 1,
+             "completion_requirement": "must_submit"}],
+@
+
+Both quizzes are diagnostics: there is no time limit, a single attempt
+suffices, and answers are never shuffled (several items show source
+whose order is meaningful, and the preparation item's choices are
+ordered).
+The items are shown one at a time, without going back, for a reason
+that \cref{app:open-items} spells out: the open accounts must be
+written before the student has seen the alternatives of the closed
+items, and on a single page the order of the items would govern only the
+order of reading.
+The cost of forbidding revisits is small in a zero-stakes diagnostic; it
+is the price of clean accounts.
+The scheduling keys are a flat list at the level of the quiz settings,
+and so are the interaction keys inside [[quiz_settings]]; the attempt
+and result-view settings, however, are objects of their own inside
+[[quiz_settings]], because that is how the platform's API groups them
+and it silently drops the same keys written flat.
+So each chunk opens and closes exactly the braces it owns: the
+[[quiz_settings]] object opens and closes in the quiz descriptions
+above, and the result-view chunks below open and close theirs.
+
+<<scheduling settings>>=
+"time_limit": null,
+"due_at": null,
+"unlock_at": null,
+"lock_at": null,
+<<interaction settings>>=
+"shuffle_answers": false,
+"shuffle_questions": false,
+"has_time_limit": false,
+"one_at_a_time_type": "question",
+"allow_backtracking": false,
+"multiple_attempts": {"multiple_attempts_enabled": false},
+@
+
+The two quizzes differ in what they show the student afterwards.
+The start quiz shows the points awarded---how well the student did---but
+neither per-item correctness nor the correct answers: the same questions
+must measure the gain at the end of the module, so they have to stay
+fresh.
+The end quiz has nothing left to protect, and the students have earned
+the answers: it shows, item by item, whether the answer was right and
+which alternative was, so that the diagnostic also teaches---the
+distractor a student chose is the misconception they can now read against
+the correct account.
+It also shows, under each item, a short text of ours: for a closed item
+why the keyed alternative is right and what each distractor assumes, and
+for an open item the ways of seeing we expect, from the first impression
+to the one the module aims at (\cref{app:open-items-feedback}).
+That text travels with the item, and the items are shared by the two
+quizzes, so the start quiz carries it too; the last key of each object is
+the one switch that hides it there and shows it at the end, and the
+deployment reads the settings back to confirm the switch took.
+The platform applies none of this unless the view is declared
+restricted, hence the first key of each object.
+
+<<start result view>>=
+"result_view_settings": {
+  "result_view_restricted": true,
+  "display_points_awarded": true,
+  "display_points_possible": true,
+  "display_items": true,
+  "display_item_response": true,
+  "display_item_response_correctness": false,
+  "display_item_correct_answer": false,
+  "display_item_feedback": false
+}
+<<end result view>>=
+"result_view_settings": {
+  "result_view_restricted": true,
+  "display_points_awarded": true,
+  "display_points_possible": true,
+  "display_items": true,
+  "display_item_response": true,
+  "display_item_response_correctness": true,
+  "display_item_correct_answer": true,
+  "display_item_feedback": true
+}
+@
+
+\subsection{The consent and preparation items}
+
+The start-of-module quiz opens with the consent item---an arrangement
+kept from the course's earlier diagnostic tests, which these quizzes
+replace:
+participation in the study is opt-in, so we ask before collecting
+anything.
+The item titles double as the keys under which Canvas reports the
+answers, so the analysis program (\cref{app:quiz-analysis}) refers to
+the items by these titles.
+
+% XXX(#4): The consent wording must follow the approved ethics application
+% for the datintro data collection; update it when the application is
+% decided.
+
+<<start-quiz consent item>>=
+{
+  "position": 1,
+  "points_possible": 0,
+  "entry": {
+    "title": "Consent",
+    "item_body": "<p>I consent to my answers in these quizzes, and my submissions in the course, being used pseudonymised in computing education research. My participation does not affect my grade.</p>",
+    "interaction_type_slug": "true-false",
+    "interaction_data": {"true_choice": "Yes", "false_choice": "No"},
+    "scoring_data": {"value": true},
+    "scoring_algorithm": "Equivalence"
+  }
+}
+@
+
+The end-of-module quiz opens instead with the preparation item.
+Canvas requires a \enquote{correct} answer even for an ungraded item;
+the [[scoring_data]] value below is arbitrary, and the item carries no
+points, so the correctness the end quiz shows for it is meaningless---a
+wrinkle of the platform, not of the design.
+
+<<end-quiz preparation item>>=
+{
+  "position": 1,
+  "points_possible": 0,
+  "entry": {
+    "title": "Preparation",
+    "item_body": "<p>Did you prepare for this quiz&mdash;for example, review the course material&mdash;before taking it?</p>",
+    "interaction_type_slug": "choice",
+    "interaction_data": {
+      "choices": [
+        {"position": 1, "item_body": "<p>No</p>"},
+        {"position": 2, "item_body": "<p>Yes, briefly</p>"},
+        {"position": 3, "item_body": "<p>Yes, thoroughly</p>"}
+      ]
+    },
+    "scoring_data": {"value": 1},
+    "scoring_algorithm": "Equivalence"
+  }
+}
+@
+
+\subsection{The open accounts}
+\label{app:open-items}
+
+The open items are the phenomenographic data: the students' own accounts
+of what LaTeX is, of what to do about a mistake seen in the PDF, of a PDF
+that does not change when the file does, of what an error message says,
+of two headings that look alike, and of two question marks where a
+section number should be.
+Every student writes about the same stimulus, so the accounts are
+comparable across students and between the start and the end of the
+module; they are read for qualitatively different ways of experiencing
+the phenomenon, sorted into categories of description and ordered into
+an outcome space (\cref{sec:method-instruments}).
+The stems present a concrete situation and ask for the student's own
+account; none of them names an aspect, for the same reason as the closed
+items below \autocite[p.~91]{NCOL}: a stem that says \enquote{recompile}
+or \enquote{the source} has already done the discerning.
+The closing invitation---\enquote{if you do not know the commands,
+describe in words}---matters at the start of the module, where many
+students have never seen a LaTeX file: an account in words of what they
+would want to happen is exactly the data we are after, and without the
+invitation those students would leave the box empty.
+
+The open items come \emph{before} the closed items.
+The closed items' distractors spell out the candidate conceptions in
+full---\enquote{correct the letters in the PDF; the LaTeX file updates
+itself to match}, \enquote{the change appears in the PDF by itself after
+a few seconds}---so a student who has just read a dozen such items has
+been handed the outcome space, and an account written afterwards echoes
+the alternatives rather than the student's own way of seeing.
+The other direction is harmless: an open stem shows only a situation,
+and whatever small effect writing about it has on the closed answers is
+the same in both administrations, so the pre/post gain is unaffected.
+This is why the quizzes show one item at a time without backtracking
+(\cref{app:quiz}).
+
+<<open items>>=
+<<item: what LaTeX is>>,
+<<item: a mistake in the PDF>>,
+<<item: the PDF has not changed>>,
+<<item: what this message says>>,
+<<item: two headings that look alike>>,
+<<item: two question marks>>
+@
+
+All open items carry no points and no correct answer; Canvas's essay
+interaction needs only the flag that turns off the rich-text editor (a
+plain box invites plain prose) and the word limit.
+The items occupy positions 3--8, leaving position 2 free for a further
+opening item, just as the knowledge items leave room below 11.
+
+The first item asks for the student's conception of LaTeX itself and of
+what happens between the text they write and the document they see.
+It is the LaTeX counterpart of the question \enquote{what does the word
+Unix mean to you?} with which the companion study opens its accounts of
+the terminal \autocite{VTTerminal}, rephrased for a tool the student may
+never have used.
+The stem says \enquote{the text you wrote} and \enquote{the document you
+look at}, not \enquote{source} and \enquote{output}: that there are two
+artifacts and that one is derived from the other is the first aspect of
+\cref{sec:compilation}, and a stem that named them as such would be doing
+the discerning \autocite[p.~91]{NCOL}.
+
+<<item: what LaTeX is>>=
+{
+  "position": 3,
+  "points_possible": 0,
+  "entry": {
+    "title": "What LaTeX is",
+    "item_body": "<p>Imagine explaining to a friend who has never used it: what is LaTeX, and what is it for? And when you have written some text with it and want to see the finished document&mdash;what happens between the text you wrote and the document you look at? Write in your own words; there is no right length. If you have never used LaTeX, describe what you would expect.</p>",
+    "interaction_type_slug": "essay",
+    "interaction_data": {"rce": false, "word_limit_enabled": false},
+    "scoring_data": {"value": ""},
+    "scoring_algorithm": "None",
+    <<outcome space: what LaTeX is>>
+  }
+}
+@
+
+The second item is the open twin of the closed item \emph{where the
+change goes} (\cref{app:knowledge-items}): the same mistake seen in the
+same PDF, but the student says in their own words what they would do and
+why.
+At the start of the module only this open form is asked, since the
+closed form's alternatives spell out that the correction goes into the
+file and the PDF is made anew; at the end both forms are asked, and the
+account and the choice of the same student can be compared.
+The stem says that the PDF was \enquote{made from} the LaTeX file, which
+is the one fact the situation cannot be posed without; it does not say
+how, or that it can be made again.
+
+<<item: a mistake in the PDF>>=
+{
+  "position": 4,
+  "points_possible": 0,
+  "entry": {
+    "title": "A mistake in the PDF",
+    "item_body": "<p>A report was written in LaTeX, and a PDF was made from it. Reading the PDF, you spot a spelling mistake in a heading: it reads Helllo, with three l's. Describe, step by step, what you would do to end up with a PDF in which the heading is spelt right&mdash;and why those steps. If you do not know the commands or the programs, describe in words what you would want to happen.</p>",
+    "interaction_type_slug": "essay",
+    "interaction_data": {"rce": false, "word_limit_enabled": false},
+    "scoring_data": {"value": ""},
+    "scoring_algorithm": "None",
+    <<outcome space: a mistake in the PDF>>
+  }
+}
+@
+
+The third item is the open twin of \emph{after you edit}: the file is
+changed and saved, and the PDF next to it has not moved.
+Both forms are asked in both quizzes, since the closed alternatives
+describe symptoms (the PDF changes by itself, the save failed) rather
+than the model; the account tells us what the student takes the
+relation between the two windows to be.
+
+<<item: the PDF has not changed>>=
+{
+  "position": 5,
+  "points_possible": 0,
+  "entry": {
+    "title": "The PDF has not changed",
+    "item_body": "<p>A student changes the title in the LaTeX file and saves it. The PDF, open in a viewer in the window next to it, still shows the old title. What has happened, and what would you do? Write in your own words.</p>",
+    "interaction_type_slug": "essay",
+    "interaction_data": {"rce": false, "word_limit_enabled": false},
+    "scoring_data": {"value": ""},
+    "scoring_algorithm": "None",
+    <<outcome space: the PDF has not changed>>
+  }
+}
+@
+
+The fourth item shows an error message and asks what it says and what
+the student would do next.
+The message is a real one---an environment left open when the document
+ends---and not one of those the closed items use, so the account is
+not primed by a closed item's alternatives later, nor the closed item
+by the account.
+The stem does not say \enquote{error}: whether the student reads the
+text as information, as noise or as a verdict is what the account
+should show (\cref{sec:errors}).
+
+<<item: what this message says>>=
+{
+  "position": 6,
+  "points_possible": 0,
+  "entry": {
+    "title": "What this message says",
+    "item_body": "<p>Making the PDF from a LaTeX file stops, and the program prints the lines below.</p><pre>! LaTeX Error: \\begin{itemize} on input line 12 ended by \\end{document}.\n\nl.30 \\end{document}</pre><p>What is it telling you, and what would you do next? Write in your own words; if you do not know the commands, describe what you would want to happen.</p>",
+    "interaction_type_slug": "essay",
+    "interaction_data": {"rce": false, "word_limit_enabled": false},
+    "scoring_data": {"value": ""},
+    "scoring_algorithm": "None",
+    <<outcome space: what this message says>>
+  }
+}
+@
+
+The fifth item is the open twin of \emph{two ways to make a heading}:
+two lines of LaTeX that produce the same large bold word in the PDF.
+The stem states only that they look the same and asks what, if anything,
+differs; an account that finds no difference, one that finds a difference
+in looks, and one that finds a difference in what the document
+\emph{knows} are three ways of experiencing markup (\cref{sec:markup}).
+
+<<item: two headings that look alike>>=
+{
+  "position": 7,
+  "points_possible": 0,
+  "entry": {
+    "title": "Two headings that look alike",
+    "item_body": "<p>The two lines of LaTeX below each produce a large, bold Method in the PDF, and the two look the same on the page.</p><pre>\\section{Method}\n\n\\textbf{\\Large Method}</pre><p>Is there any difference between them? Explain, in your own words, what each line does and whether it matters which one is used.</p>",
+    "interaction_type_slug": "essay",
+    "interaction_data": {"rce": false, "word_limit_enabled": false},
+    "scoring_data": {"value": ""},
+    "scoring_algorithm": "None",
+    <<outcome space: two headings that look alike>>
+  }
+}
+@
+
+The sixth item is the open twin of \emph{question marks in the output}:
+a cross-reference that comes out as \enquote{??}.
+Every LaTeX user meets this on their first day with references, and the
+account of what is going on separates a student who takes the two
+question marks as an error in their text from one who takes them as a
+reference not yet resolved.
+
+<<item: two question marks>>=
+{
+  "position": 8,
+  "points_possible": 0,
+  "entry": {
+    "title": "Two question marks",
+    "item_body": "<p>An author adds the sentence below to a report, and puts \\label{sec:results} at the start of the results section.</p><pre>The numbers are in Section~\\ref{sec:results}.</pre><p>In the PDF made right afterwards the sentence reads: The numbers are in Section ??. What is going on, and what would you do? Write in your own words.</p>",
+    "interaction_type_slug": "essay",
+    "interaction_data": {"rce": false, "word_limit_enabled": false},
+    "scoring_data": {"value": ""},
+    "scoring_algorithm": "None",
+    <<outcome space: two question marks>>
+  }
+}
+@
+
+\subsubsection{What the end quiz shows for an account}
+\label{app:open-items-feedback}
+
+The end quiz has an answer for the open items too.
+Under each account it shows the ways of seeing we expect for that
+stimulus, from the first impression to the one the module aims at---an
+outcome space, ordered as phenomenography orders one: each level
+discerns something the level before it does not
+\autocite[Ch.~2]{NCOL}.
+The levels are \emph{provisional}: no account has been read yet, so they
+are posited from the candidate critical aspects of the chapter each item
+belongs to
+(\cref{sec:compilation-aspects,sec:errors-aspects,sec:markup-aspects}),
+and they are written for the student, in the words of the stem.
+Three things keep them from contaminating the data.
+They are shown only after submission, so the account is written first;
+they are shown only in the end quiz, since the start quiz hides all
+feedback (\cref{app:quiz}); and they are never given to the coder or to
+the model that pre-codes the accounts
+(\cref{app:quiz-analysis})---the categories are what the analysis is to
+find, and a coder who had our expectation in front of them would be
+confirming it.
+Once the first cohort's accounts are coded, the empirical outcome space
+replaces these lists, and the closed items' explanations are revisited
+against the distractor frequencies.
+% TODO(#5): replace the provisional outcome spaces below with the
+% empirical ones after the first cohort's accounts are coded; re-apply
+% both quizzes with canvaslms quizzes edit.
+
+The platform shows such a text as the item's feedback; the first line
+says what the list is, and the list runs from the least to the most
+powerful way of seeing.
+
+<<outcome space: what LaTeX is>>=
+"feedback": {"neutral": "<p>Different answers to this question show different ways of seeing LaTeX. In order, from a first impression to the way of seeing the module aims at:</p><ol><li>LaTeX is a program for making good-looking documents&mdash;a word processor with codes in it.</li><li>LaTeX is a notation: you write text with commands in it, and some program turns that into a PDF.</li><li>LaTeX is two things and a step between them: the file <em>is</em> the document, the PDF is made from it each time LaTeX is run, and the commands say what things are while the document class decides how they look.</li></ol>"}
+<<outcome space: a mistake in the PDF>>=
+"feedback": {"neutral": "<p>Different answers to this question show different ways of seeing LaTeX. In order, from a first impression to the way of seeing the module aims at:</p><ol><li>Correct it in the PDF&mdash;the PDF is the document.</li><li>Correct it in the file, and expect the PDF to follow by itself.</li><li>Correct it in the file and make the PDF again&mdash;the PDF is made from the file and is only as current as the last run.</li></ol>"}
+<<outcome space: the PDF has not changed>>=
+"feedback": {"neutral": "<p>Different answers to this question show different ways of seeing LaTeX. In order, from a first impression to the way of seeing the module aims at:</p><ol><li>Something is broken: the save failed, or the viewer is stuck.</li><li>It updates by itself, just not yet.</li><li>The PDF is the result of the last run and changes when LaTeX is run again&mdash;so run it.</li></ol>"}
+<<outcome space: what this message says>>=
+"feedback": {"neutral": "<p>Different answers to this question show different ways of seeing LaTeX. In order, from a first impression to the way of seeing the module aims at:</p><ol><li>Noise, or a verdict: the document is broken; start over or ask someone.</li><li>A place: something near line 30 went wrong, so look there.</li><li>A place <em>and</em> a cause: a list begun at line 12 was never closed, and LaTeX noticed when the document ended. The message names the first problem; fix it, run again, and expect to do this often.</li></ol>"}
+<<outcome space: two headings that look alike>>=
+"feedback": {"neutral": "<p>Different answers to this question show different ways of seeing LaTeX. In order, from a first impression to the way of seeing the module aims at:</p><ol><li>No difference&mdash;both are headings, because both look like one.</li><li>A difference of convenience&mdash;the first is shorter and numbers itself.</li><li>A difference in kind&mdash;the first <em>declares</em> a section, so it is numbered, enters the table of contents, can be referred to, and gets its look from the class; the second only looks like one.</li></ol>"}
+<<outcome space: two question marks>>=
+"feedback": {"neutral": "<p>Different answers to this question show different ways of seeing LaTeX. In order, from a first impression to the way of seeing the module aims at:</p><ol><li>A mistake in my text: the label is misspelt, or references do not work.</li><li>Something to fix by hand: type the number in.</li><li>A reference not yet resolved: LaTeX notes where the label is on one run and fills the number in on the next&mdash;so run it again.</li></ol>"}
+@
+
+\subsection{The knowledge items}
+\label{app:knowledge-items}
+
+The knowledge items are written for this study and published here in
+full.
+They walk through the three educational objectives of the module in turn:
+the compile model (\cref{sec:compilation}), error handling
+(\cref{sec:errors}), and semantic markup (\cref{sec:markup}); each item
+tests one candidate critical aspect, and whether the student discerns it
+is exactly what the item measures.
+Following \citeauthor{NCOL}'s discussion of assessment, the stems do not
+point out the relevant aspect---discerning it is what we measure
+\autocite[p.~91]{NCOL}---so each stem shows only LaTeX, what comes out of
+it, or a message it prints, and leaves what matters for the student to
+see.
+Each distractor expresses the behaviour of a learner who has not
+discerned the aspect, and throughout the distractors are the
+WYSIWYG-word-processor expectations the module has to displace: that the
+document \emph{is} what the screen shows.
+The correct alternative is kept about as long as the distractors, since
+the longest alternative is a known cue for test-wise students.
+All items weigh one point: we measure discernment by counting correct
+answers, and \cref{app:quiz-analysis} reports them item by item, since
+each item stands for one aspect.
+Each item is followed by the text the end quiz shows under it, with the
+correct alternative: a short account of why that alternative is right and
+what each distractor assumes---the distractor a student chose is the
+misconception they can now read against it.
+The text may name the aspect, since it is shown only after the answer and
+only at the end; it paraphrases the rationale given before the item, and
+the two must be kept in step.
+
+The items are numbered from position~11 so that their placement is
+independent of the quiz they appear in: Canvas orders by position, gaps
+are fine, and the numbering leaves room for the quiz-specific opening
+item (consent or preparation) and the open accounts before them.
+The list below is the ten items both quizzes share; the eleventh,
+\emph{where the change goes}, is in the end quiz only and is listed
+there.
+
+<<knowledge items>>=
+<<item: after you edit>>,
+<<item: spaces in the source>>,
+<<item: a list inside a list>>,
+<<item: reading the report>>,
+<<item: which error first>>,
+<<item: a document that will not compile>>,
+<<item: two ways to make a heading>>,
+<<item: the same source, another look>>,
+<<item: inserting a section>>,
+<<item: question marks in the output>>
+@
+
+\subsubsection{The compile model}
+
+Two artifacts, one direction (\cref{sec:compilation}): edits happen in the
+LaTeX file, and the PDF is derived from it, never the other way round.
+The distractors edit the PDF, or expect editing the PDF to change the
+file---the WYSIWYG assumption that the document one sees is the document
+one edits.
+This item is the one the start quiz leaves out: there the same mistake
+is the open item \emph{a mistake in the PDF} (\cref{app:open-items}),
+because the alternatives spell out the model---that the correction goes
+into the file and the PDF is made anew---to students who may be meeting
+LaTeX for the first time, and the start quiz promises not to reveal what
+the course will teach.
+The end quiz carries both forms, so for this aspect the movement is read
+from the account at the start to the item at the end, and the paired
+per-item gain of \cref{app:quiz-analysis} is computed over the other
+items only.
+The item keeps position 11 in the end quiz; the start quiz simply has a
+gap there.
+
+<<item: where the change goes>>=
+{
+  "position": 11,
+  "points_possible": 1,
+  "entry": {
+    "title": "Where the change goes",
+    "item_body": "<p>A report was written in LaTeX, and the PDF made from it shows a spelling mistake in a heading: it reads Helllo, with three l's. What is the right way to correct it?</p>",
+    "interaction_type_slug": "choice",
+    "interaction_data": {
+      "choices": [
+        {"position": 1, "item_body": "<p>Correct the letters in the PDF; the LaTeX file updates itself to match</p>"},
+        {"position": 2, "item_body": "<p>Correct the spelling in the LaTeX file and make the PDF from it again</p>"},
+        {"position": 3, "item_body": "<p>Correct the letters in the PDF with a PDF editor and hand that PDF in</p>"},
+        {"position": 4, "item_body": "<p>There is nothing to do in the LaTeX file&mdash;the mistake is only in the PDF</p>"}
+      ]
+    },
+    "scoring_data": {"value": 2},
+    "scoring_algorithm": "Equivalence",
+    <<feedback: where the change goes>>
+  }
+}
+<<feedback: where the change goes>>=
+"feedback": {"neutral": "<p>The LaTeX file is the document; the PDF is made from it, never the other way round. So the correction goes into the file, and the PDF is made again. Editing the PDF, or expecting the file to follow the PDF, takes the PDF for the document.</p>"}
+@
+
+The compiler reads, it does not watch (\cref{sec:compilation}): the PDF
+reflects the last run, and nothing changes until the next one.
+The distractors expect the PDF to track the file live, as a word
+processor's single window does, or take the mismatch for a fault.
+The stem describes the two windows and says nothing about how the PDF
+came to be; the key says \enquote{made again}, not \enquote{compiled},
+so that the word does not give the alternative away
+\autocite[p.~91]{NCOL}.
+
+<<item: after you edit>>=
+{
+  "position": 12,
+  "points_possible": 1,
+  "entry": {
+    "title": "After you edit",
+    "item_body": "<p>A student changes the title in the LaTeX file and saves it. The PDF, already open in a viewer, still shows the old title. Which statement is true?</p>",
+    "interaction_type_slug": "choice",
+    "interaction_data": {
+      "choices": [
+        {"position": 1, "item_body": "<p>The save failed&mdash;saving the file should change the PDF at once, as it does in a word processor</p>"},
+        {"position": 2, "item_body": "<p>The change appears in the PDF by itself after a few seconds, once the viewer notices the file has changed</p>"},
+        {"position": 3, "item_body": "<p>The file and the PDF are out of step because of a bug; restart the editor and the viewer</p>"},
+        {"position": 4, "item_body": "<p>The PDF is the one made last time; it changes only when the PDF is made from the file again</p>"}
+      ]
+    },
+    "scoring_data": {"value": 4},
+    "scoring_algorithm": "Equivalence",
+    <<feedback: after you edit>>
+  }
+}
+<<feedback: after you edit>>=
+"feedback": {"neutral": "<p>The PDF shows the result of the last run of LaTeX; saving the file changes nothing in it until LaTeX is run again. Nothing failed and nothing is out of step: the viewer shows a PDF that has not been remade, and it will not remake itself.</p>"}
+@
+
+Whitespace and characters mean things (\cref{sec:compilation}): the file
+is written in a formal language, so repeated spaces collapse and a blank
+line starts a paragraph---the layout of the file is not copied to the
+page.
+The distractors read the file as decorated text whose spacing is
+reproduced literally, as the only kind of meaning, or as a fault.
+The stem shows the lines and asks what comes out; it does not say that
+spaces are \enquote{special}, which is the aspect.
+
+<<item: spaces in the source>>=
+{
+  "position": 13,
+  "points_possible": 1,
+  "entry": {
+    "title": "Spaces in the source",
+    "item_body": "<p>A LaTeX file contains the lines below. What does the PDF made from it look like?</p><pre>Hello      world.\n\nGoodbye.</pre>",
+    "interaction_type_slug": "choice",
+    "interaction_data": {
+      "choices": [
+        {"position": 1, "item_body": "<p>Hello world. as one paragraph, Goodbye. as the next: the spaces count as one, the blank line as a paragraph break</p>"},
+        {"position": 2, "item_body": "<p>Exactly as typed: the wide gap between Hello and world is kept, and the blank line gives the same gap vertically</p>"},
+        {"position": 3, "item_body": "<p>Hello world. Goodbye. on one line: the spaces are collapsed and the blank line is ignored, since only the words matter</p>"},
+        {"position": 4, "item_body": "<p>An error message, because a run of spaces and a blank line are not allowed in the middle of the text</p>"}
+      ]
+    },
+    "scoring_data": {"value": 1},
+    "scoring_algorithm": "Equivalence",
+    <<feedback: spaces in the source>>
+  }
+}
+<<feedback: spaces in the source>>=
+"feedback": {"neutral": "<p>LaTeX reads the file as a notation, not as a picture of the page: a run of spaces is one space, and a blank line ends a paragraph. The layout of the file is not copied to the PDF, so the gap is not kept; nor is it an error, and the blank line is not ignored.</p>"}
+@
+
+Structure nests (\cref{sec:compilation}): an environment opened with
+[[\begin]] is closed by its [[\end]], a brace by its partner, and what
+lies between belongs to it---a list begun inside a list is inside it.
+This is the one aspect of the compile model read off a documented
+difficulty: novices learning a markup language grapple with
+\enquote{hierarchies and paths, nesting} as much as with the notation
+\autocite{Park2011WebDev}, and reading hierarchies in code---LaTeX among
+the languages---has an instrument of its own \autocite{Park2016Hierarchies}.
+The stem shows a nested list and asks what comes out; it does not say
+\enquote{nested} or \enquote{inside}, which is the aspect
+\autocite[p.~91]{NCOL}.
+The distractors flatten the structure, take the inner list for a second
+list after the first, or take the nesting for an error.
+
+<<item: a list inside a list>>=
+{
+  "position": 14,
+  "points_possible": 1,
+  "entry": {
+    "title": "A list inside a list",
+    "item_body": "<p>A LaTeX file contains the lines below. What does the PDF made from it show?</p><pre>\\begin{itemize}\n  \\item Fruit\n  \\begin{itemize}\n    \\item Apples\n  \\end{itemize}\n  \\item Bread\n\\end{itemize}</pre>",
+    "interaction_type_slug": "choice",
+    "interaction_data": {
+      "choices": [
+        {"position": 1, "item_body": "<p>A list of two points, Fruit and Bread, with Apples as a point of its own under Fruit, set in from it</p>"},
+        {"position": 2, "item_body": "<p>A list of three points at the same level, Fruit, Apples and Bread, since each \\item makes one point of the list</p>"},
+        {"position": 3, "item_body": "<p>Two separate lists one after the other, Fruit, then Apples, then Bread, since each \\begin starts a new list</p>"},
+        {"position": 4, "item_body": "<p>An error message, since a list cannot be started again before the first one has ended</p>"}
+      ]
+    },
+    "scoring_data": {"value": 1},
+    "scoring_algorithm": "Equivalence",
+    <<feedback: a list inside a list>>
+  }
+}
+<<feedback: a list inside a list>>=
+"feedback": {"neutral": "<p>A \\begin is closed by its \\end, and what lies between belongs to it: the inner list belongs to the point Fruit, so Apples is a point under Fruit, set in. The three \\items are not at one level, the two \\begins are not two lists one after the other, and nesting is not an error&mdash;it is how structure is written.</p>"}
+@
+
+\subsubsection{Errors and debugging the document}
+
+An error message is information (\cref{sec:errors}): it names a place and
+a cause.
+The correct choice reads both out of the report; the distractors read the
+message as something else, or as meaningless.
+The stem shows the message and asks which statement is true; it does not
+say that the message is to be read, nor where the line number points.
+
+<<item: reading the report>>=
+{
+  "position": 15,
+  "points_possible": 1,
+  "entry": {
+    "title": "Reading the report",
+    "item_body": "<p>Making the PDF from a LaTeX file stops with the message below. Which statement is true?</p><pre>! Undefined control sequence.\nl.42 \\setion\n            {Introduction}</pre>",
+    "interaction_type_slug": "choice",
+    "interaction_data": {
+      "choices": [
+        {"position": 1, "item_body": "<p>The file named in the message could not be found, so nothing after line 42 was read</p>"},
+        {"position": 2, "item_body": "<p>Introduction is not allowed as a section title; the word must be changed to something else</p>"},
+        {"position": 3, "item_body": "<p>A command called \\setion is unknown, and the line number says about where in the file it was met</p>"},
+        {"position": 4, "item_body": "<p>The line number is where the program gave up, not where the fault is; the error could be anywhere</p>"}
+      ]
+    },
+    "scoring_data": {"value": 3},
+    "scoring_algorithm": "Equivalence",
+    <<feedback: reading the report>>
+  }
+}
+<<feedback: reading the report>>=
+"feedback": {"neutral": "<p>The message is information: it names a cause&mdash;an undefined control sequence, that is, a command LaTeX does not know, \\setion&mdash;and a place, line 42, where it met it. It does not say that a file is missing, nor that Introduction is a bad title; and the line number is where the problem was met, not an arbitrary place.</p>"}
+@
+
+The first error counts (\cref{sec:errors}): later errors are often
+consequences of the first, so it is fixed first and the document run
+again.
+The distractors take the errors in the wrong order, or as unrelated.
+The stem shows the first two of eight messages and asks for the best next
+step; the key gives no diagnosis of the first error, so that it cannot be
+picked for being the only alternative that explains the message
+\autocite[p.~91]{NCOL}.
+
+<<item: which error first>>=
+{
+  "position": 16,
+  "points_possible": 1,
+  "entry": {
+    "title": "Which error first",
+    "item_body": "<p>Making the PDF reported eight errors. The first two are shown below. What is the best next step?</p><pre>! Undefined control sequence.\nl.10 \\includegraphics\n                     {plot.png}\n! LaTeX Error: \\begin{document} ended by \\end{figure}.</pre>",
+    "interaction_type_slug": "choice",
+    "interaction_data": {
+      "choices": [
+        {"position": 1, "item_body": "<p>Fix the first error and make the PDF again; the later ones may be consequences of it</p>"},
+        {"position": 2, "item_body": "<p>Fix the last of the eight errors first, since it is the most recent and therefore the most urgent</p>"},
+        {"position": 3, "item_body": "<p>Go through all eight and fix each of them before making the PDF again, so that one run settles them all</p>"},
+        {"position": 4, "item_body": "<p>The eight errors are unrelated; start with whichever looks easiest and work through the list</p>"}
+      ]
+    },
+    "scoring_data": {"value": 1},
+    "scoring_algorithm": "Equivalence",
+    <<feedback: which error first>>
+  }
+}
+<<feedback: which error first>>=
+"feedback": {"neutral": "<p>Later errors are often consequences of the first: an unknown \\includegraphics leaves the figure in a state that produces the second message, and more. Fix the first, run again, and see what remains; fixing the last first, or all eight before running, or the easiest one, spends effort on messages that may vanish by themselves.</p>"}
+@
+
+Errors are normal (\cref{sec:errors}): the recompile loop is the working
+mode, not a failure mode.
+The distractors treat an error as terminal---the document lost, corrupted
+or refused---rather than as something to read and fix.
+This is the one stem that shows no material: it describes the situation
+in a sentence, since what the item asks about is the student's reading of
+the situation itself.
+
+<<item: a document that will not compile>>=
+{
+  "position": 17,
+  "points_possible": 1,
+  "entry": {
+    "title": "A document that will not compile",
+    "item_body": "<p>A student tries to make the PDF from their LaTeX file; the program stops and reports an error. Which statement is true?</p>",
+    "interaction_type_slug": "choice",
+    "interaction_data": {
+      "choices": [
+        {"position": 1, "item_body": "<p>An error means the document is corrupted: the file has to be started over from a working copy</p>"},
+        {"position": 2, "item_body": "<p>The error has deleted the part of the file it complains about, so that text has to be written again</p>"},
+        {"position": 3, "item_body": "<p>Once an error has been reported for a file, the program refuses that file; a new file has to be made</p>"},
+        {"position": 4, "item_body": "<p>The file is intact; reading the error, fixing it and trying again is the normal way of working</p>"}
+      ]
+    },
+    "scoring_data": {"value": 4},
+    "scoring_algorithm": "Equivalence",
+    <<feedback: a document that will not compile>>
+  }
+}
+<<feedback: a document that will not compile>>=
+"feedback": {"neutral": "<p>An error stops this run; it does not touch the file. Read the message, fix what it names, run again&mdash;that is the normal way of working with LaTeX, and most documents go through it many times. Nothing is corrupted, deleted or refused.</p>"}
+@
+
+\subsubsection{Semantic markup}
+
+Say what it is, not how it looks (\cref{sec:markup}): markup declares what
+something \emph{is}, and only real structure enters the table of contents
+and the numbering.
+The item pairs a real [[\section]] with hand-formatted text that looks
+identical; the distractors judge the two by their appearance, which is
+exactly what does not distinguish them.
+The stem says that the two look the same and that the document has a
+table of contents; it does not say that one of them \emph{is} something
+the other is not.
+
+<<item: two ways to make a heading>>=
+{
+  "position": 18,
+  "points_possible": 1,
+  "entry": {
+    "title": "Two ways to make a heading",
+    "item_body": "<p>The two lines of LaTeX below look the same in the PDF: a large, bold Method. The document has a table of contents (\\tableofcontents). Which statement is true?</p><pre>\\section{Method}\n\n\\bigskip\\noindent\\textbf{\\Large Method}</pre>",
+    "interaction_type_slug": "choice",
+    "interaction_data": {
+      "choices": [
+        {"position": 1, "item_body": "<p>They are equivalent: both are headings, since what makes a heading is that it looks like one on the page to the reader</p>"},
+        {"position": 2, "item_body": "<p>Only the first is a section, numbered and listed in the table of contents; the second only looks like one</p>"},
+        {"position": 3, "item_body": "<p>Both appear in the table of contents, since the table of contents lists whatever is set large and bold</p>"},
+        {"position": 4, "item_body": "<p>The second is the better one, since it gives you control over exactly how the heading looks in the PDF</p>"}
+      ]
+    },
+    "scoring_data": {"value": 2},
+    "scoring_algorithm": "Equivalence",
+    <<feedback: two ways to make a heading>>
+  }
+}
+<<feedback: two ways to make a heading>>=
+"feedback": {"neutral": "<p>\\section declares a section: that is why it is numbered, enters the table of contents and can be referred to, and why its look is set by the document class. The second line only looks like a heading; to LaTeX it is large bold text in a paragraph. Looking alike does not make them equivalent, the table of contents lists sections rather than bold text, and setting the look by hand gives up everything the declaration gives.</p>"}
+@
+
+One declaration, many appearances (\cref{sec:markup}): the same marked-up
+file comes out differently under a different class or style, because the
+markup fixes the structure, not the look.
+The distractors tie the appearance to the file, or expect the markup to
+break or to need redoing.
+The stem names the commands and the change of class and asks what can
+change; the key says \enquote{what the markup declares}, which is the
+aspect's own vocabulary and so sits at the edge of what a key may say
+\autocite[p.~91]{NCOL}---but the distractors use the same word
+\enquote{commands} for the same things, so the vocabulary does not single
+the key out.
+
+<<item: the same source, another look>>=
+{
+  "position": 19,
+  "points_possible": 1,
+  "entry": {
+    "title": "The same source, another look",
+    "item_body": "<p>A document written with \\section, \\emph and \\cite is made into a PDF once as an article and once under a different document class. What can change?</p>",
+    "interaction_type_slug": "choice",
+    "interaction_data": {
+      "choices": [
+        {"position": 1, "item_body": "<p>Nothing can change unless you edit the text, because the commands in the file fix how it looks</p>"},
+        {"position": 2, "item_body": "<p>The text disappears, because the commands were written for the article class and another class cannot read them</p>"},
+        {"position": 3, "item_body": "<p>The look&mdash;fonts, heading style, numbering&mdash;can change; what the commands declare stays the same</p>"},
+        {"position": 4, "item_body": "<p>You must mark every heading, emphasis and citation again by hand, since the new class starts from nothing</p>"}
+      ]
+    },
+    "scoring_data": {"value": 3},
+    "scoring_algorithm": "Equivalence",
+    <<feedback: the same source, another look>>
+  }
+}
+<<feedback: the same source, another look>>=
+"feedback": {"neutral": "<p>The commands say what things are&mdash;a section, an emphasis, a citation; how they look is decided by the class. So another class can change fonts, heading style and numbering while the structure the commands declare stays the same. The file does not fix the look, another class reads the same commands, and nothing needs marking again.</p>"}
+@
+
+References are relations (\cref{sec:markup}): [[\ref]] and [[\cite]] link
+to things, and the compiler maintains the links and the numbering.
+The distractors renumber or re-reference by hand, the work the WYSIWYG
+model assumes must be done manually.
+The stem describes the document and the insertion and asks what must be
+done about the numbers; it does not say that the numbers are maintained
+for the author.
+
+<<item: inserting a section>>=
+{
+  "position": 20,
+  "points_possible": 1,
+  "entry": {
+    "title": "Inserting a section",
+    "item_body": "<p>A document numbers its sections with \\section, refers to them with \\label and \\ref, and has a table of contents. The author inserts a new section near the beginning. What must be done about the later section numbers and the cross-references to them?</p>",
+    "interaction_type_slug": "choice",
+    "interaction_data": {
+      "choices": [
+        {"position": 1, "item_body": "<p>Change every later section number and every reference to it by hand, since they were typed in as numbers</p>"},
+        {"position": 2, "item_body": "<p>Update the table of contents by hand, but the references fix themselves when the PDF is made again</p>"},
+        {"position": 3, "item_body": "<p>Renumber the later sections by hand; the references to them cannot be updated and must be rewritten</p>"},
+        {"position": 4, "item_body": "<p>Nothing by hand: the next run renumbers the sections, the table of contents and every reference</p>"}
+      ]
+    },
+    "scoring_data": {"value": 4},
+    "scoring_algorithm": "Equivalence",
+    <<feedback: inserting a section>>
+  }
+}
+<<feedback: inserting a section>>=
+"feedback": {"neutral": "<p>Sections are numbered, and \\ref and the table of contents are filled in, by LaTeX on each run; the numbers are not in the file. Inserting a section therefore changes nothing by hand: the next run renumbers and updates the table of contents and every reference. Neither the numbers nor the references need typing.</p>"}
+@
+
+The same aspect has a second face, which the previous item does not
+reach: that a reference is a relation the compiler \emph{resolves}, and
+resolves on the run after the one that first meets it, so that a fresh
+reference comes out as two question marks until the document is run once
+more.
+The item shows exactly that, and asks what is going on.
+The key says that the reference was not yet known and that running again
+fills it in; the distractors read the question marks as a spelling
+mistake in the label, as a sign that numbers cannot be referred to at
+all, or as a rule about the order of label and reference in the file.
+This is the closed twin of the open item \emph{two question marks}
+(\cref{app:open-items}); both are asked in both quizzes.
+
+<<item: question marks in the output>>=
+{
+  "position": 21,
+  "points_possible": 1,
+  "entry": {
+    "title": "Question marks in the output",
+    "item_body": "<p>An author adds the sentence below to a report, and puts \\label{sec:results} at the start of the results section.</p><pre>The numbers are in Section~\\ref{sec:results}.</pre><p>In the PDF made right afterwards the sentence reads: The numbers are in Section ??. What is going on?</p>",
+    "interaction_type_slug": "choice",
+    "interaction_data": {
+      "choices": [
+        {"position": 1, "item_body": "<p>The label name is misspelt somewhere: two question marks always mean a name that does not exist</p>"},
+        {"position": 2, "item_body": "<p>Section numbers cannot be referred to this way; the number has to be typed in by hand where it is needed</p>"},
+        {"position": 3, "item_body": "<p>The number was not yet known when this PDF was made; making the PDF once more fills it in</p>"},
+        {"position": 4, "item_body": "<p>The label has to come before the reference in the file; moving the results section earlier fixes it</p>"}
+      ]
+    },
+    "scoring_data": {"value": 3},
+    "scoring_algorithm": "Equivalence",
+    <<feedback: question marks in the output>>
+  }
+}
+<<feedback: question marks in the output>>=
+"feedback": {"neutral": "<p>A \\ref is a relation LaTeX resolves: on one run it notes where each label is, and on the next it fills the number in, so a new reference shows as ?? once. The label is not misspelt, numbers can be referred to this way, and the order of label and reference in the file does not matter. Run LaTeX again.</p>"}
+@
+
+\subsection{Analysing the results}
+\label{app:quiz-analysis}
+
+Canvas compiles the responses into a student-analysis report: a CSV file
+with one row per student and one column per item, keyed by the item
+titles above.
+The analysis program fetches that report itself---we know the courses and
+the quiz titles, so nothing needs to be clicked or downloaded by
+hand---using the same [[canvaslms]] machinery as the command-line tool.
+For the closed items it tabulates the opening items, reports each
+knowledge item's facility and distractor counts, summarises the scores
+and, given both reports, the paired gains: the movement per student and
+per aspect that \cref{sec:method-instruments} asks for.
+For the open items it writes the accounts to a coding sheet: one row per
+student, quiz and item, with empty columns for the codes, so that every
+collected account is read and coded.
+
+The coding is done by a human, but a large language model prepares it:
+with [[--llm]] the program asks a model (via the [[llm]] package) to
+suggest, for each account, a category in the student's own terms and
+what the student discerns and does not, and the coder verifies, merges
+or overrides these in the sheet.
+The suggestions are kept in separate columns from the verified codes, so
+the sheet always shows which is which; and they are deliberately not
+drawn from a fixed list, since the categories are what the analysis is
+to find.
+
+<<[[analyze_quiz.py]]>>=
+"""Fetch and summarise the LaTeX-quiz results, and prepare the coding
+sheet.
+
+The quizzes are defined in the two quiz-knowledge-*.json files, tangled
+from the same literate source (the appendix of the paper).  The results
+come straight from Canvas via canvaslms; the item titles are the column
+keys, and the answer key is read from the quiz description.
+
+Requires canvaslms and its configured credentials; the optional LLM
+pre-coding requires the llm package with a default model.
+"""
+
+import argparse
+import collections
+import csv
+import html
+import json
+import os
+import re
+import statistics
+import sys
+
+<<the courses and the item titles are the keys>>
+<<the answer key from the quiz description>>
+<<fetch the results from Canvas>>
+<<attach the login IDs>>
+<<the consent filter>>
+<<tabulate the opening items>>
+<<per-item facility and distractor frequencies>>
+<<paired pre/post gain>>
+<<pre-code the open accounts with an LLM>>
+<<write the coding sheet>>
+<<analysis main>>
+
+if __name__ == "__main__":
+    main()
+@
+
+The course names and the item titles are the join keys between the
+tangled files: if a title changes in a quiz, this block is the only
+other place to change---and they live in the same source, side by side.
+The module runs in two courses: datintro26, where the literate program
+created the quizzes, and the CS programme's course alongside it, into
+which the teachers copy the module---quizzes included---by hand.
+The analysis therefore fetches the report from every course in the list
+that has the quiz, pools the rows, and tags each row with its course, so
+the cohorts stay separable; a course or quiz not found is noted and
+skipped, since the copy is made by hand and may lag this source.
+A name cannot identify a student: two students may share one even
+within a course, let alone across the pooled ones.
+The identifier is the student's \emph{login ID}---an email address,
+unique across the institution and beyond, and the identifier the
+surrounding tooling already keys results by---which the report does not
+carry, so [[fetch_results]] attaches it to every row from the course's
+own roster (\cref{app:quiz-analysis}).
+Every join below goes through [[student_of]], which uses the login ID
+and falls back to the course--name pair only for rows read from a saved
+report, which lack the attached column.
+% TODO(#6): confirm the CS course's exact Canvas course code when the
+% 2026 instance exists (the 2025 instance's code was prginda25, not
+% progd25).
+The coding columns are the open scheme: a category of description, what
+the account shows the student discerning and not discerning, and notes;
+the suggested columns mirror them and add the model's rationale.
+Canvas prefixes the report's columns with item identifiers, so we match
+columns by containment rather than equality---which is why no item title
+may be a substring of another's.
+
+<<the courses and the item titles are the keys>>=
+COURSES = ["datintro26", "progd26"]
+COURSE_COLUMN = "course"
+LOGIN_COLUMN = "login"
+QUIZ_TITLES = {
+    "start": "LaTeX quiz: what you know already",
+    "end": "LaTeX quiz: what you know now",
+}
+QUIZ_FILE = "quiz-knowledge-end.json"
+STUDENT = "name"
+CONSENT = "Consent"
+CONTROL_ITEMS = [CONSENT, "Preparation"]
+OPEN_ITEMS = ["What LaTeX is", "A mistake in the PDF",
+              "The PDF has not changed", "What this message says",
+              "Two headings that look alike", "Two question marks"]
+CODED_KEYS = ["category", "discerned", "undiscerned"]
+CODING_COLUMNS = CODED_KEYS + ["notes"]
+SUGGESTED_COLUMNS = [f"suggested_{key}" for key in CODED_KEYS + ["rationale"]]
+
+
+def column_for(title, fieldnames):
+    """Return the report column whose name contains the item title."""
+    return next((name for name in fieldnames if title in name), None)
+
+
+def student_of(row):
+    """Return the identifier of the student behind a row.
+
+    The login ID attached by fetch_results when available; rows read
+    from a saved report lack it and fall back to the course--name pair.
+    """
+    return row.get(LOGIN_COLUMN) or (row.get(COURSE_COLUMN, ""), row[STUDENT])
+@
+
+\subsubsection{The answer key}
+
+The report records each closed answer as the text of the chosen
+alternative, not its number, so the program needs the alternatives and
+the key.
+Rather than duplicating them by hand---a second copy that would drift
+from the first---it reads them from the tangled quiz description: the
+end quiz, since it carries every item, whereas the start quiz leaves one
+knowledge item out (\cref{app:knowledge-items}).
+An item a quiz does not carry has no column in that quiz's report, so
+the tables below ask first whether the item was asked at all, and skip
+it rather than count every student as wrong.
+The item bodies are HTML, so the text is stripped of tags and unescaped
+before it is compared with the report; both sides are reduced to single
+spaces, since Canvas is free to rewrap.
+The graded choice items are the knowledge items (the preparation item is
+a choice item too, but carries no points); the essay items are the open
+items, whose stems the pre-coding prompt quotes.
+The feedback an item carries is for the student and is not read here: in
+particular the provisional outcome spaces of \cref{app:open-items-feedback}
+never reach the coding sheet or the pre-coding prompt.
+
+<<the answer key from the quiz description>>=
+TAGS = re.compile(r"<[^>]+>")
+
+
+def plain(body):
+    """Return the text of an HTML item body, whitespace normalised."""
+    return " ".join(html.unescape(TAGS.sub(" ", body)).split())
+
+
+def load_quiz(path):
+    """Return the knowledge items and the open stems of a quiz file.
+
+    The knowledge items map title -> (alternatives, correct position);
+    the open stems map title -> stem text.
+    """
+    with open(path) as infile:
+        quiz = json.load(infile)
+    knowledge, stems = {}, {}
+    for item in quiz["items"]:
+        entry = item["entry"]
+        kind = entry["interaction_type_slug"]
+        if kind == "choice" and item["points_possible"]:
+            choices = sorted(entry["interaction_data"]["choices"],
+                             key=lambda choice: choice["position"])
+            knowledge[entry["title"]] = (
+                [plain(choice["item_body"]) for choice in choices],
+                entry["scoring_data"]["value"],
+            )
+        elif kind == "essay":
+            stems[entry["title"]] = plain(entry["item_body"])
+    return knowledge, stems
+
+
+def answer_of(row, title):
+    """Return the student's answer to the titled item, normalised."""
+    column = column_for(title, row.keys())
+    return plain(row.get(column, "")) if column else ""
+
+
+def is_correct(row, title, knowledge):
+    """Whether the row's answer to the titled item is the keyed one."""
+    choices, correct = knowledge[title]
+    return answer_of(row, title) == choices[correct - 1]
+
+
+def asked(rows, title):
+    """Whether the report's columns include the titled item at all."""
+    return bool(rows) and column_for(title, rows[0].keys()) is not None
+@
+
+\subsubsection{Fetching the report from Canvas}
+
+Just as we create the quizzes with [[canvaslms]], we extract the results
+with it: the same package provides the credentials, the course lookup and
+the report machinery, so the program reuses them instead of
+reimplementing the Canvas API calls.
+The report is generated on demand by Canvas, so we request it, wait for
+it, and download the CSV it points to---once per course that has the
+quiz, appending the course name to each row under [[COURSE_COLUMN]].
+
+<<fetch the results from Canvas>>=
+def fetch_results(which):
+    """Download the student-analysis rows for the start or end quiz.
+
+    Fetches from every course in COURSES that has the quiz, pools the
+    rows and tags each with its course; missing courses or quizzes are
+    noted and skipped.
+    """
+    import appdirs
+    import requests
+    import canvaslms.cli
+    import canvaslms.cli.login
+    from canvasapi import Canvas
+    from canvaslms.cli.quizzes import (
+        create_new_quiz_report,
+        filter_quizzes,
+        is_new_quiz,
+        poll_progress,
+    )
+
+    config_file = os.path.join(
+        appdirs.user_config_dir("canvaslms"), "config.json"
+    )
+    config = canvaslms.cli.read_configuration(config_file)
+    hostname, token = canvaslms.cli.login.load_credentials(config)
+    if not hostname.startswith("http"):
+        hostname = f"https://{hostname}"
+    canvas = Canvas(hostname, token)
+
+    rows = []
+    for name in COURSES:
+        course = next(
+            (c for c in canvas.get_courses()
+             if name in (c.name or "") or name in (c.course_code or "")),
+            None,
+        )
+        if course is None:
+            print(f"note: no course matching {name}, skipping")
+            continue
+        quiz = next(filter_quizzes([course], QUIZ_TITLES[which]), None)
+        if quiz is None:
+            print(f"note: {name} has no quiz {QUIZ_TITLES[which]!r}, skipping")
+            continue
+        if not is_new_quiz(quiz):
+            sys.exit(f"quiz {quiz.title!r} in {name} is not a New Quiz")
+
+        progress = poll_progress(
+            create_new_quiz_report(course, quiz.id, canvas._Canvas__requester)
+        )
+        url = progress.results.get("url") if progress else None
+        if not url:
+            sys.exit(f"Canvas did not produce the report for {name}")
+        response = requests.get(url)
+        response.raise_for_status()
+        course_rows = list(csv.DictReader(response.text.splitlines()))
+        for row in course_rows:
+            row[COURSE_COLUMN] = name
+        attach_logins(course_rows, course, name)
+        rows.extend(course_rows)
+    return rows
+@
+
+The report identifies its rows by name and, in its [[id]] and [[sis_id]]
+columns, by the platform's and the institution's identifiers; the login
+ID lives in the course roster.
+So each row is looked up in the roster: by the platform ID, else by the
+institutional ID, else---for a report that carries neither---by name,
+which is accepted only when exactly one enrolled student bears it; an
+ambiguous name is reported rather than silently mis-joined, and such
+rows keep the course--name fallback of [[student_of]].
+
+<<attach the login IDs>>=
+def attach_logins(rows, course, name):
+    """Attach each row's student login ID from the course roster."""
+    by_id, by_sis, by_name = {}, {}, {}
+    try:
+        students = list(course.get_users(enrollment_type=["student"]))
+    except Exception as error:
+        print(f"warning: cannot read the roster of {name}: {error}")
+        return
+    for user in students:
+        login = getattr(user, "login_id", None)
+        if not login:
+            continue
+        by_id[str(user.id)] = login
+        sis = getattr(user, "sis_user_id", None)
+        if sis:
+            by_sis[str(sis)] = login
+        by_name.setdefault(user.name, []).append(login)
+    if not rows:
+        return
+    id_column = next((c for c in rows[0] if c.strip().lower() == "id"), None)
+    sis_column = next((c for c in rows[0]
+                       if c.strip().lower() == "sis_id"), None)
+    for row in rows:
+        login = None
+        if id_column and row.get(id_column):
+            login = by_id.get(str(row[id_column]).strip())
+        if not login and sis_column and row.get(sis_column):
+            login = by_sis.get(str(row[sis_column]).strip())
+        if not login:
+            candidates = by_name.get(row[STUDENT], [])
+            if len(candidates) == 1:
+                login = candidates[0]
+            elif len(candidates) > 1:
+                print(f"warning: several students in {name} are named"
+                      f" {row[STUDENT]!r} and the report has no usable ID"
+                      f" column; falling back to course and name")
+        if login:
+            row[LOGIN_COLUMN] = login
+@
+
+\subsubsection{Consent}
+
+Consent is asked once, in the start quiz, and covers both; the end quiz
+has no consent item of its own, so its rows are filtered by the names
+that consented at the start (\cref{sec:method-instruments}).
+Analysed on its own, the end quiz therefore cannot be filtered, and the
+program says so rather than silently keeping everyone.
+
+<<the consent filter>>=
+def consenting(rows):
+    """Return the students who consented, or None if unasked.
+
+    Students are login IDs (or the course--name fallback), so namesakes
+    stay distinct.
+    """
+    column = column_for(CONSENT, rows[0].keys())
+    if column is None:
+        return None
+    return {student_of(row) for row in rows
+            if row[column].strip().lower() in ("yes", "true")}
+
+
+def filter_consent(rows, students):
+    """Keep the rows of the given students; None keeps every row."""
+    if students is None:
+        print("note: no consent item in these rows, so no filtering")
+        return rows
+    return [row for row in rows if student_of(row) in students]
+@
+
+\subsubsection{Summaries}
+
+Tabulating an opening item is counting its answer frequencies; we print
+one table per opening item present in the report (the consent item only
+exists in the start quiz, the preparation item only in the end quiz).
+Since Canvas grades the knowledge items, each report carries a score
+column, which we summarise: the score distribution at the start measures
+what the students bring, and at the end, the gain.
+
+<<tabulate the opening items>>=
+def tabulate(rows, item):
+    """Print the answer frequencies for one opening item."""
+    column = column_for(item, rows[0].keys())
+    if column is None:
+        return
+    counts = collections.Counter(row[column] for row in rows)
+    print(f"\n{item}")
+    for answer, count in counts.most_common():
+        print(f"  {answer or '(no answer)'}: {count}")
+
+
+def summarize_scores(rows):
+    """Print the score distribution, if the report has scores."""
+    column = column_for("score", rows[0].keys())
+    if column is None:
+        return
+    scores = [float(row[column]) for row in rows if row[column]]
+    if scores:
+        print(f"\nscores: n={len(scores)}"
+              f", mean={statistics.mean(scores):.1f}"
+              f", median={statistics.median(scores):.1f}"
+              f", max={max(scores):.0f}")
+@
+
+The total score says how much the students discern; which aspects they
+discern, and which misconceptions they hold instead, is in the
+alternatives.
+So the knowledge items are reported one by one: the facility, that is
+the share of answering students who chose the keyed alternative, and the
+count for every alternative, the key marked with a star.
+A distractor chosen by a third of the students at the start and by
+nobody at the end is the clearest evidence the instrument can give that
+the module made the aspect discernible; a distractor that survives the
+module is where the teaching must change.
+
+<<per-item facility and distractor frequencies>>=
+def item_table(rows, knowledge):
+    """Print, per knowledge item, the facility and each alternative's count."""
+    for title, (choices, correct) in knowledge.items():
+        if not asked(rows, title):
+            continue
+        answers = [answer_of(row, title) for row in rows]
+        answered = [answer for answer in answers if answer]
+        counts = collections.Counter(answered)
+        facility = (counts[choices[correct - 1]] / len(answered)
+                    if answered else float("nan"))
+        print(f"\n{title}: n={len(answered)}, facility={facility:.2f}")
+        for position, choice in enumerate(choices, start=1):
+            mark = "*" if position == correct else " "
+            print(f"  {mark} {counts[choice]:3d}  {choice}")
+@
+
+\subsubsection{Paired gains}
+
+The gain is a within-student quantity: the same student, the same item,
+before and after.
+The two reports are joined on the student---the login ID, so that
+namesakes never pair, not even within one course---and for each item the
+program counts how many of the paired students were right at the start,
+how many at the end, and---the two numbers that matter---how many moved
+from wrong to right and from right to wrong; they are the discordant
+cells of McNemar's test, should the numbers warrant one, and they are
+reported as counts so that the reader can judge them without one.
+The score gain is reported as a mean over the same pairs.
+
+<<paired pre/post gain>>=
+def paired_gain(start, end, knowledge):
+    """Print, per item, how the students who took both quizzes moved."""
+    at_end = {student_of(row): row for row in end}
+    pairs = [(row, at_end[student_of(row)])
+             for row in start if student_of(row) in at_end]
+    print(f"\n{len(pairs)} students took both quizzes")
+    print(f"{'item':42s} {'start':>5s} {'end':>5s} {'+':>4s} {'-':>4s}")
+    for title in knowledge:
+        if not (asked(start, title) and asked(end, title)):
+            continue
+        before = [is_correct(row, title, knowledge) for row, _ in pairs]
+        after = [is_correct(row, title, knowledge) for _, row in pairs]
+        gained = sum(1 for b, a in zip(before, after) if a and not b)
+        lost = sum(1 for b, a in zip(before, after) if b and not a)
+        print(f"{title:42s} {sum(before):5d} {sum(after):5d}"
+              f" {gained:4d} {lost:4d}")
+    <<the mean score gain over the pairs>>
+@
+
+The score columns may be missing (a report without grades) or empty for
+a student who never submitted, so only pairs with both scores count.
+
+<<the mean score gain over the pairs>>=
+gains = []
+for first, second in pairs:
+    before = column_for("score", first.keys())
+    after = column_for("score", second.keys())
+    if before and after and first[before] and second[after]:
+        gains.append(float(second[after]) - float(first[before]))
+if gains:
+    print(f"mean score gain={statistics.mean(gains):.2f} over {len(gains)}")
+@
+
+\subsubsection{The coding sheet}
+
+The accounts are coded one at a time, each against the stem it answers,
+so the model is given one account and one stem per call.
+The prompt states the purpose---to find the qualitatively different ways
+the students experience the phenomenon---and asks for a category in the
+student's own terms and for what the account shows the student
+discerning and not discerning; it does not offer a list to choose from,
+because a list would turn the finding into confirming.
+The model must answer in JSON so that the suggestions land in columns;
+an unparseable answer leaves the suggestion empty rather than stopping
+the run.
+The suggestions are exactly that: \cref{sec:method-instruments} requires
+a human coder, who forms the categories by comparing the accounts with
+each other, and the verified codes go in the bare columns.
+
+<<pre-code the open accounts with an LLM>>=
+CODING_PROMPT = """\
+You are pre-coding one written answer from a diagnostic quiz on
+writing documents with LaTeX, for a phenomenographic analysis.  The
+aim is to find the qualitatively different ways the students
+experience the phenomenon, in their own terms; do not map the answer
+onto a fixed list of codes.
+Answer in JSON with keys "category" (one short phrase for what the
+student seems to take the phenomenon to be), "discerned" (short
+phrases: the distinctions the student makes), "undiscerned" (short
+phrases: what the student treats as the same, or leaves out, that
+matters for the task), and "rationale" (one sentence pointing at the
+words in the answer).
+
+Question: {question}
+Answer: {answer}
+"""
+
+
+def llm_precode(records):
+    """Ask the default llm model to suggest codes for each account."""
+    import llm
+
+    model = llm.get_model()
+    suggestions = []
+    for record in records:
+        prompt = CODING_PROMPT.format(question=record["stem"],
+                                      answer=record["answer"])
+        try:
+            suggestion = json.loads(model.prompt(prompt).text())
+        except Exception:
+            suggestion = {}
+        suggestions.append(
+            {f"suggested_{key}": suggestion.get(key, "")
+             for key in CODED_KEYS + ["rationale"]}
+        )
+    return suggestions
+@
+
+The sheet is in long format---one row per student, quiz and item, with
+the course the student belongs to and the login ID that identifies
+them---for two reasons.
+The categories are formed per phenomenon, so the coder reads all the
+accounts of one item together, which a sort on the item column gives;
+and the movement of a student between categories from start to end is a
+comparison of two rows of the same student and item, which the quiz
+column makes possible.
+Empty accounts are left out: a box the student skipped is not an account
+to code.
+The verbatim answer is kept as the student typed it, not normalised, so
+the coder reads what the student wrote.
+
+<<write the coding sheet>>=
+def open_records(rows, quiz, stems):
+    """Return one record per student and open item, with the stem."""
+    records = []
+    for row in rows:
+        for item in OPEN_ITEMS:
+            column = column_for(item, row.keys())
+            answer = row.get(column, "").strip() if column else ""
+            if answer:
+                records.append({"quiz": quiz, STUDENT: row[STUDENT],
+                                LOGIN_COLUMN: row.get(LOGIN_COLUMN, ""),
+                                COURSE_COLUMN: row.get(COURSE_COLUMN, ""),
+                                "item": item, "stem": stems.get(item, item),
+                                "answer": answer})
+    return records
+
+
+def write_coding_sheet(records, path, suggestions=None):
+    """Write the accounts with coding columns to path."""
+    fields = (["quiz", STUDENT, LOGIN_COLUMN, COURSE_COLUMN, "item", "answer"]
+              + (SUGGESTED_COLUMNS if suggestions else []) + CODING_COLUMNS)
+    with open(path, "w", newline="") as out:
+        writer = csv.DictWriter(out, fieldnames=fields, extrasaction="ignore")
+        writer.writeheader()
+        for index, record in enumerate(records):
+            if suggestions:
+                record = {**record, **suggestions[index]}
+            writer.writerow(record)
+@
+
+\subsubsection{Putting it together}
+
+The main function reads or fetches one or both reports, filters by
+consent, and reports each quiz: the opening item, the knowledge items
+one by one, the scores.
+With both quizzes it adds the paired gains, and it always writes the
+coding sheet for whatever accounts it has read.
+The quiz file defaults to the tangled end quiz next to the program,
+since that is the one that carries every item.
+
+<<analysis main>>=
+def read_rows(path):
+    """Read a saved student-analysis report."""
+    with open(path, newline="") as infile:
+        return list(csv.DictReader(infile))
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--quiz", choices=["start", "end", "both"],
+                        default="start", help="which quiz to analyse")
+    parser.add_argument("--results", nargs="+", metavar="CSV",
+                        help="read these CSVs (start, end) instead of "
+                             "fetching from Canvas")
+    parser.add_argument("--quiz-file",
+                        default=os.path.join(
+                            os.path.dirname(os.path.abspath(__file__)),
+                            QUIZ_FILE),
+                        help="quiz description to read the answer key from")
+    parser.add_argument("--llm", action="store_true",
+                        help="pre-code the open accounts with an LLM")
+    parser.add_argument("--coding-sheet", default="quiz-coding-sheet.csv",
+                        help="output CSV for the coding of the accounts")
+    args = parser.parse_args()
+
+    which = ["start", "end"] if args.quiz == "both" else [args.quiz]
+    if args.results:
+        if len(args.results) != len(which):
+            sys.exit(f"expected {len(which)} results file(s) for {args.quiz}")
+        rows = dict(zip(which, map(read_rows, args.results)))
+    else:
+        rows = {quiz: fetch_results(quiz) for quiz in which}
+    if not all(rows.values()):
+        sys.exit("no responses")
+    knowledge, stems = load_quiz(args.quiz_file)
+
+    students = consenting(rows["start"]) if "start" in rows else None
+    for quiz in which:
+        rows[quiz] = filter_consent(rows[quiz], students)
+        print(f"\n== {QUIZ_TITLES[quiz]}: {len(rows[quiz])} students")
+        for item in CONTROL_ITEMS:
+            tabulate(rows[quiz], item)
+        item_table(rows[quiz], knowledge)
+        summarize_scores(rows[quiz])
+    if args.quiz == "both":
+        paired_gain(rows["start"], rows["end"], knowledge)
+
+    records = [record for quiz in which
+               for record in open_records(rows[quiz], quiz, stems)]
+    suggestions = llm_precode(records) if args.llm else None
+    write_coding_sheet(records, args.coding_sheet, suggestions)
+    print(f"\ncoding sheet written to {args.coding_sheet}"
+          f" ({len(records)} accounts)")
+@

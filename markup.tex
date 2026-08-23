@@ -8,24 +8,70 @@ emphasis, quotations, cross-references and citations declare what things
 
 \subsection{Documented difficulties}
 
-The seed round found no studies of learners' understanding of semantic
-versus presentational markup.
-% TODO(#1): The systematic phase should look at markup/HTML education studies
-% and end-user document structuring; course data (datintro LaTeX lab
-% grading, which specifically checks semantic-markup use) supplies the
-% local observations.
+The systematic round (\cref{app:protocol}) found no studies of learners'
+understanding of semantic versus presentational markup---and the gap is
+not peculiar to LaTeX.
+A PRISMA review of teaching web design finds empirical research on
+teaching even HTML and CSS---markup taught far more widely than
+LaTeX---\enquote{scarce} and in a \enquote{nascent state}, the few studies
+reporting difficulties with \enquote{complex material comprehension}
+\autocite{Kharchenko2025WebDesign}; the misconception of markup as
+\emph{meaning} rather than appearance is, as far as we can tell, nowhere
+documented empirically.
+Authoring a structured document with markup is a form of end-user
+programming, for which a canonical taxonomy identifies learning barriers
+beyond the language itself---among them \emph{understanding} and
+\emph{use} barriers \autocite{Ko2004Barriers}; we conjecture that the leap
+from \enquote{make it look right} to \enquote{say what it is} is such an
+understanding barrier for LaTeX learners.
+The round that looked specifically for it
+(\cref{sec:protocol-measurement}) found no study of learners'
+understanding of semantic versus presentational markup, of word-processor
+styles versus direct formatting, or of cross-references and numbering;
+the separation of content from presentation appears in the
+web-development literature only as one of the computational concepts a
+course exercises, not as a documented difficulty \autocite{Park2011WebDev}.
+Our own course data (the datintro LaTeX lab grading specifically checks
+semantic-markup use) supplies the local observations
+(cf.\ \cref{sec:method-course-data}).
 
 \subsection{Candidate critical aspects}
+\label{sec:markup-aspects}
 
-% XXX Preliminary.
-\begin{itemize}
-  \item \emph{Say what it is, not how it looks}: \verb|\section| versus
-    large bold text; \verb|\emph| versus italics.
-  \item \emph{One declaration, many appearances}: the same source
-    renders differently under a different class or style.
-  \item \emph{References are relations}: \verb|\ref|/\verb|\cite| link to
-    things, and the compiler maintains the links.
-\end{itemize}
+With the literature on markup-as-meaning empty, the three candidates below
+rest on our course's grading and on the object of learning.
+
+\begin{description}
+  \item[Say what it is, not how it looks]
+    \verb|\section| versus large bold text; \verb|\emph| versus italics:
+    markup declares what a thing \emph{is}, and only what is declared
+    enters the table of contents and the numbering.
+    Read off our own course: the LaTeX lab's grading checks
+    semantic-markup use, and its failures are the documented instances
+    (\cref{sec:method-course-data}); the literature has the concept but
+    no documented difficulty \autocite{Park2011WebDev}.
+    Tested by the item \emph{two ways to make a heading} and its open
+    twin \emph{two headings that look alike}
+    (\cref{app:knowledge-items,app:open-items}).
+  \item[One declaration, many appearances]
+    The same source renders differently under a different class or
+    style, because the markup fixes the structure, not the look.
+    Posited from the object of learning as the consequence of the first
+    aspect: if the markup says what a thing is, how it looks is decided
+    elsewhere and can be decided again.
+    Tested by the item \emph{the same source, another look}.
+  \item[References are relations]
+    \verb|\ref| and \verb|\cite| link to things, and the compiler
+    maintains the links and the numbering---over more than one run, so
+    that a fresh reference comes out as two question marks until the
+    next.
+    Posited from the object of learning; the manual renumbering the
+    WYSIWYG model assumes is what the learner has to unlearn, and no
+    study documents it.
+    Tested by the items \emph{inserting a section} and \emph{question
+    marks in the output}, the latter with its open twin \emph{two
+    question marks}.
+\end{description}
 
 \subsection{Patterns of variation}
 
