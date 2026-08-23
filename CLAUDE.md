@@ -94,8 +94,10 @@ must-submit item of its own datintro26 module ("LaTeX pre-test" / "LaTeX
 post-test") bracketing the "Report writing" module, and the appendix prose
 gives the `modules create`/`modules edit --prerequisite` commands that
 chain pre-test → Report writing → post-test. Deployed to datintro26
-2026-08-23 (modules at positions 6 and 8, quizzes 394099/394100),
-unpublished; the teacher publishes. Consent wording pending the ethics
+2026-08-23 (quizzes 394099/394100; the module positions in the appendix
+commands are those at deployment time and shift as other quizzes are
+inserted — re-list before reusing them), unpublished; the teacher
+publishes. Consent wording pending the ethics
 application (issue #4).
 Items are keyed by title in the Canvas report (substring match — no title
 may be a substring of another); `analyze_quiz.py` reads the answer key
