@@ -147,3 +147,266 @@ The central negative result---no LaTeX-specific learner study---has now
 survived keyless CS indexes, natural-language queries in Web of Science
 and Scopus, and field-tagged queries in both; we consider the gap
 established as firmly as absence can be.
+
+\subsection{Critical-aspects and measurement round (2026-08-23)}
+\label{sec:protocol-measurement}
+
+The rounds above asked what the literature says about learners'
+misconceptions of LaTeX and found it empty; this round asks two prior
+questions that \cref{sec:method-instruments,sec:related} and the aspect
+lists of \cref{sec:compilation,sec:errors,sec:markup} rely on.
+First, \emph{which aspects of document preparation---the compile model,
+error handling, semantic markup---does the empirical literature name as
+ones learners must discern or repeatedly fail to}, in LaTeX itself or in
+the adjacent literatures (HTML and CSS education, WYSIWYG-versus-markup
+and word-processor-style studies, compiler-error-message reading,
+end-user programming of documents)?
+Its answer decides, aspect by aspect, whether a candidate aspect is read
+off the literature or merely posited.
+Second, \emph{has learners' understanding of LaTeX, document preparation
+or markup been measured}---by a phenomenographic study, a diagnostic
+instrument or concept inventory, a knowledge test or a pre/post-test---and
+does the pre/post-test design of \cref{sec:method-instruments} have a
+precedent in learning-study practice and in the diagnostic-instrument
+literature?
+
+\paragraph{Method.}
+Twenty-four natural-language queries and five field-tagged ones were run
+with the \texttt{scholar} tool under the session
+\texttt{vt-latex-measurement}, each natural-language query against
+OpenAlex, Scopus and Web of Science, with DBLP added to the six shortest
+(DBLP requires every term to match, so longer queries return nothing
+there); Semantic Scholar and IEEE~Xplore were unavailable throughout
+(\texttt{scholar providers check}: API keys rejected, HTTP~403), so their
+coverage is missing.
+Twenty results per provider per query were kept.
+The queries, verbatim:
+\begin{itemize}
+  \item \emph{Measurement of LaTeX or markup understanding.}
+    \texttt{"latex students misconceptions pre-test post-test"};
+    \texttt{"latex concept inventory"};
+    \texttt{"students conceptions of latex document preparation
+    phenomenographic"};
+    \texttt{"markup language learning difficulties students assessment"};
+    \texttt{"html css misconceptions students instrument"};
+    \texttt{"wysiwyg versus markup students mental model"}.
+  \item \emph{What the existing work measures.}
+    \texttt{"latex learnability usability study"};
+    \texttt{"latex error messages novices"};
+    \texttt{"compiler error message comprehension test novices"};
+    \texttt{"students understanding structure versus presentation
+    documents"}.
+  \item \emph{Critical aspects and difficulties per objective.}
+    Compile model:
+    \texttt{"students source document compile model misconception"};
+    \texttt{"wysiwyg versus markup editors users mental model study"}.
+    Error handling:
+    \texttt{"novices reading compiler error messages first error"};
+    \texttt{"tex latex error messages comprehension"}.
+    Semantic markup:
+    \texttt{"semantic versus presentational markup students
+    understanding"};
+    \texttt{"html css structure presentation separation misconceptions"};
+    \texttt{"structured document authoring novices difficulties"};
+    \texttt{"word processor styles versus direct formatting users study"}.
+  \item \emph{Method precedents} (the companion paper's queries,
+    verbatim \autocite{VTTerminal}):
+    \texttt{"two-tier diagnostic test misconceptions development"};
+    \texttt{"concept inventory computer science development validation
+    interviews"};
+    \texttt{"learning study pre-test post-test critical aspects Marton
+    Pang"}.
+  \item \emph{Counter-searches} (phrased to surface the interview,
+    think-aloud and instrument studies that would refute the gap):
+    \texttt{"ways of experiencing typesetting markup students
+    interviews"};
+    \texttt{"think-aloud study novices latex"};
+    \texttt{"latex validated assessment students"}.
+  \item \emph{Field-tagged} (Web of Science \texttt{TS=}, Scopus
+    \texttt{TITLE-ABS-KEY}, since natural language ranks badly there):
+    \texttt{TS=(("LaTeX" OR "TeX") AND (typeset* OR "document
+    preparation") AND (student* OR novice* OR learner*) AND
+    (misconception* OR difficult* OR understand* OR "mental model*"))};
+    \texttt{TITLE-ABS-KEY(("LaTeX" OR typesetting) AND (student OR novice
+    OR learner) AND (misconception OR difficulty OR "mental model") AND
+    document)};
+    \texttt{TS=(("markup language" OR HTML OR CSS) AND (novice* OR
+    student*) AND (misconception* OR error* OR difficult*) AND (structure
+    OR presentation OR semantic))};
+    the same in Scopus syntax;
+    and \texttt{TITLE-ABS-KEY(("word processor" OR "word processing")
+    AND (style OR styles OR formatting) AND (user OR students) AND (study
+    OR experiment) AND (structure OR template))}.
+\end{itemize}
+The session collected 772 distinct papers, 755 from the topic and
+field-tagged queries and the rest from nine known-item title searches
+described below.
+Abstracts were filled in with \texttt{scholar enrich} where the provider
+records lacked them (445 of 749 papers had one afterwards; OpenAlex
+rate-limited the rest); the full list was then classified zero-shot
+against a written research context with \texttt{scholar llm classify}
+(GPT-5.4 via GitHub Copilot), which kept 67 and discarded 688; every
+paper the model kept, and every discarded paper whose title mentions
+LaTeX, TeX, markup, HTML, CSS, WYSIWYG, word processing, typesetting,
+concept inventories, two-tier tests or phenomenography, was then read by
+hand and decided, the model's over-keeps (SQL and theorem-prover error
+messages, web-development tooling, learning studies in other school
+subjects, programming-error taxonomies that do not concern the message)
+being re-labelled with their reason; the model's labels and confidences
+remain in the session export.
+The final tally is 33 kept (cited, method precedents, or recorded as
+corroboration) and 739 discarded, each with its reason.
+Decisions were recorded with \texttt{scholar sessions decide}; the export
+(queries, every screened paper with abstract, decision and reason) is in
+\texttt{literature-review/vt-latex-measurement.\{bib,csv,tex\}}, and each
+retained reference carries a provenance block in
+\texttt{misconceptions.bib} or \texttt{theory.bib}.
+Known-item retrievals, which the provenance blocks state: the three
+studies of novices learning HTML and CSS by Park and colleagues
+\autocite{Park2011WebDev,Park2013ErrorTaxonomy,Park2015SyntaxErrors} were
+known from background and retrieved by Crossref and OpenAlex title
+queries (only the second was also returned by a topic query), their open
+full text being the author's dissertation \autocite{Park2014openHTML};
+the CSS-layout log study \autocite{Kim2019CSSLayout} surfaced in the same
+OpenAlex search; and the computing concept-inventory review, the
+operating-systems inventory and the virtual-memory pre/post study
+\autocite{Taylor2014CI,WebbTaylor2014OSCI,Pamplona2024VirtualMemory} were
+ported from the companion paper's measurement round
+\autocite{VTTerminal}, with their provenance blocks, and re-added to this
+session by title search.
+The two learning-study references and the diagnostic-instrument review
+\autocite{PangMarton2005,Kullberg2017ZDM,KaltakciGurel2015Diagnostics} and
+the CS1 test-item paper \autocite{Vahrenhold2014TestItems} were returned
+by the method-precedent queries here as well, and were likewise ported
+with their verified blocks.
+
+\paragraph{Results.}
+The hit list is dominated by false positives---natural-rubber latex,
+science-education two-tier tests, LaTeX as a tool for accessibility or
+exam generation---which the classifier discarded; the on-topic residue
+falls into five groups.
+
+\emph{Critical aspects and difficulties per objective.}
+No study names a critical aspect of LaTeX; what the adjacent literature
+documents is, per objective, the following.
+For the \emph{compile model}, the only LaTeX study remains the
+professionals' efficiency comparison \autocite{Knauff2014Latex}; the
+markup-education literature adds that WYSIWYG editors \enquote{shield
+users from the underlying code} and \enquote{can lead to a misapplication
+of analogy, where learners intuit more than is warranted from the
+document metaphor} \autocite[p.~38]{Park2014openHTML}, an argument from
+the literature rather than a finding, and that novices writing HTML and
+CSS \enquote{grappled with the formal nature of [the] notation},
+making \enquote{minute errors with case sensitivity, white space, and
+missing delimiters}---a formality that \enquote{contrasts with the
+flexibility not only of natural language, but also of popular computing
+systems like word processors} \autocite{Park2011WebDev}\footnote{The
+quotation is from the dissertation that reports the same study
+\autocite[p.~61]{Park2014openHTML}; the ICER paper is paywalled.}.
+That is direct evidence, in a neighbouring markup language, for
+\emph{whitespace and characters mean things}; the two other compile-model
+aspects have no documented counterpart.
+
+For \emph{error handling}, the programming-error-message literature already
+cited in \cref{sec:errors} stands, and the round adds its markup
+counterpart: in a web-development course nearly all students made
+syntax errors that stayed unresolved for weeks, and \enquote{nearly all
+of the errors that were detected through validation were eventually
+corrected} while the unresolved ones sat in untested code
+\autocite{Park2015SyntaxErrors}; in the lab, because browsers tolerate
+errors, \enquote{the errors remain latent and unresolved, reinforcing
+faulty understandings} \autocite{Park2013ErrorTaxonomy}\footnote{Quoted
+from \textcite[pp.~107--108]{Park2014openHTML}, which reports the same
+study.}.
+A report that names the error is what turns a latent error into a fixed
+one---adjacent evidence for \emph{an error message is information}; the
+first-error finding \autocite{Munson2016CompilerErrors} and the
+recompile-loop observation remain programming findings transferred.
+The model-kept error-message papers beyond those already cited (enhanced
+messages, readability, LLM hints) corroborate that reading the message
+is the difficulty and are recorded as such in the export.
+
+For \emph{semantic markup}, nothing: no study of learners' understanding
+of semantic versus presentational markup, of word-processor styles versus
+direct formatting, or of cross-references and numbering surfaced, in any
+provider or syntax; the separation of content from presentation appears
+only as one of the computational concepts a web-development course
+exercises, not as a documented difficulty \autocite{Park2011WebDev}.
+
+\emph{Phenomenographic and interview studies.}
+None for LaTeX, document preparation or markup; the phenomenographic
+studies the queries returned concern vectors and teachers' conceptions of
+learning study, and the counter-searches returned no interview or
+think-aloud study of LaTeX learners.
+
+\emph{Diagnostic instruments and concept inventories.}
+No diagnostic instrument or concept inventory for LaTeX, document
+preparation or markup was found.
+The nearest is an instrument for \emph{reading hierarchies in code}---three
+measures of vocabulary, reasoning and fluency, one of them a tool that
+elicits mental models of nested structure \enquote{in computing languages
+ranging from HTML, CSS, and LaTeX to JavaScript and Lisp}, administered to
+24 participants \autocite{Park2016Hierarchies}; it measures nesting, not
+the compile model, error handling or semantic markup.
+The field review reports no widely used, validated concept inventory for
+computer science at all, the groundwork lying in CS1 and digital logic
+\autocite{Taylor2014CI}; the CS1 test items developed with think-aloud
+interviews \autocite{Vahrenhold2014TestItems} and the operating-systems
+inventory built from instructor experience \autocite{WebbTaylor2014OSCI}
+confirm where that groundwork lies.
+The nearest \emph{measurement of conceptions} is the operating-systems
+study that derives seven students' conceptions of virtual memory from
+written tests at the beginning and end of a course
+\autocite{Pamplona2024VirtualMemory}---the method this paper adopts,
+applied to a neighbouring topic.
+
+\emph{What the remaining work measures.}
+Perception and behaviour: master's students' perceptions of Word for
+mathematical typesetting, compared with the other tools they had used
+\autocite{Loch2015WordMaths}, and activity logs of learners' syntactic and
+semantic errors in a CSS layout game \autocite{Kim2019CSSLayout}---the
+markup counterparts of the confidence surveys and command logs that the
+companion paper found for the shell \autocite{VTTerminal}.
+
+\emph{Learning-study precedents.}
+The learning-study literature supplies the design this paper's method
+follows: a pre-test used to identify the critical aspects that separate
+the qualitatively different ways of understanding, the same task repeated
+as post-test, and the comparison read against what was enacted
+\autocite{PangMarton2005}; the procedure is standard in variation-theory
+lesson studies \autocite{Kullberg2017ZDM}.
+In the diagnostic-instrument literature, interviews and open-ended tests
+are the most common route to students' conceptions, ahead of
+multiple-choice and multiple-tier tests
+\autocite{KaltakciGurel2015Diagnostics}.
+
+\paragraph{Conclusion.}
+On the first question: the literature names no critical aspect of LaTeX,
+and of the nine candidate aspects of
+\cref{sec:compilation,sec:errors,sec:markup} two can be read off
+documented difficulties in adjacent markup and programming
+literatures---\emph{whitespace and characters mean things}
+\autocite{Park2011WebDev} and \emph{an error message is information}
+\autocite{Park2015SyntaxErrors,Park2013ErrorTaxonomy,%
+Munson2016CompilerErrors,Prather2017Interaction}, with \emph{the first
+error counts} resting on the programming finding alone
+\autocite{Munson2016CompilerErrors}---while the compile-model and
+semantic-markup aspects remain posited from the object of learning or
+grounded in our own course observations, which \cref{sec:compilation,%
+sec:errors,sec:markup} now state aspect by aspect.
+On the second: no, not with an instrument built for it---no
+phenomenographic study, diagnostic instrument or concept inventory for
+LaTeX, document preparation or markup exists, the nearest being a
+hierarchy-reading instrument that lists LaTeX among its languages
+\autocite{Park2016Hierarchies}; the rest of the empirical work measures
+perceptions or error logs.
+The qualification is that measurement of conceptions by written pre- and
+post-tests \emph{has} been done in computing education
+\autocite{Pamplona2024VirtualMemory}, so the gap is specific to document
+preparation, not to the method; the learning-study tradition
+\autocite{PangMarton2005,Kullberg2017ZDM} and the diagnostic-instrument
+typology \autocite{KaltakciGurel2015Diagnostics} give the pre/post-test
+design of \cref{sec:method-instruments} its precedent.
+Semantic Scholar's and IEEE~Xplore's absence from the round is the main
+limitation; the claim rests on OpenAlex, Scopus and Web of Science, plus
+DBLP for the short queries.

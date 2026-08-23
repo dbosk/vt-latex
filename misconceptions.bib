@@ -463,3 +463,514 @@
   note={Work in progress},
   year={2026},
 }
+
+% --- Measurement round (2026-08-23): has learners' understanding of LaTeX
+% --- been measured, and which critical aspects does the literature name?
+% --- Session vt-latex-measurement; export in literature-review/.
+
+% === provenance: Park2011WebDev ===
+% CLAIM: Novices learning a markup language (HTML/CSS) struggle with the
+%   formality of the notation -- "minute errors with case sensitivity, white
+%   space, and missing delimiters" -- and with nesting and hierarchy; this is
+%   the adjacent-literature evidence that whitespace and characters meaning
+%   things is a documented difficulty of markup, not only a posited one for
+%   LaTeX.
+% FOUND-VIA: not returned by the topic queries of session
+%   "vt-latex-measurement" (e.g. "markup language learning difficulties
+%   students assessment", "html css misconceptions students instrument" -p
+%   openalex -p scopus -p wos); known item (Park/Forte's web-development
+%   learning studies), retrieved by Crossref bibliographic query and added to
+%   the session with scholar search -n vt-latex-measurement "web development
+%   earlier stage computing education" -p dblp -p openalex (DOI
+%   10.1145/2016911.2016937).
+% PICKED: the first of the three Park/Forte studies of novices learning
+%   HTML/CSS and the one that characterises the difficulties (help-forum
+%   content analysis, 49 students); primary source for the notation finding.
+% QUOTE (abstract): "we identify several computational concepts that relate
+%   to these challenges, including notation, hierarchies and paths, nesting,
+%   parameters and arguments, and decomposition and abstraction."
+% QUOTE (the same study as reported in the author's dissertation,
+%   Park2014openHTML, p. 61): "Students grappled with the formal nature of
+%   HTML, CSS, and JavaScript notation when translating their intentions to
+%   instructions. For instance, when creating links and images, students made
+%   minute errors with case sensitivity, white space, and missing delimiters.
+%   [...] This formality contrasts with the flexibility not only of natural
+%   language, but also of popular computing systems like word processors and
+%   search engines."
+% VERIFIED: abstract read (OpenAlex/Crossref); the ICER paper is paywalled
+%   (ACM), so the study's full text was read in the author's open-access
+%   dissertation (chapter 3 reports this study), from which the second quote
+%   and its page come. Entails the claim for HTML/CSS novices; the transfer
+%   to LaTeX is ours and is stated as such.
+% COUNTER: scholar search "wysiwyg versus markup students mental model" and
+%   "students source document compile model misconception" -p openalex -p
+%   scopus -p wos (same session) -- no study reporting that markup notation
+%   is unproblematic for novices; none found.
+% DATE: 2026-08-23
+@inproceedings{Park2011WebDev,
+  author    = {Park, Thomas H. and Wiedenbeck, Susan},
+  title     = {Learning web development: challenges at an earlier stage of
+               computing education},
+  booktitle = {Proceedings of the Seventh International Workshop on
+               Computing Education Research},
+  series    = {ICER '11},
+  publisher = {ACM},
+  year      = {2011},
+  pages     = {125--132},
+  doi       = {10.1145/2016911.2016937},
+}
+
+% === provenance: Park2013ErrorTaxonomy ===
+% CLAIM: In a lab study of 20 people writing HTML and CSS, most errors were
+%   slips, a sixth stemmed from misconceptions (rule-based errors), and --
+%   the point for LaTeX's error handling -- because browsers tolerate errors
+%   and the live preview still renders, errors "remain latent and
+%   unresolved, reinforcing faulty understandings": a markup system that does
+%   not report its errors lets them persist.
+% FOUND-VIA: scholar search "html css misconceptions students instrument"
+%   -p openalex -p scopus -p wos (session "vt-latex-measurement"); also
+%   retrieved as a known item by title (scholar search -n
+%   vt-latex-measurement "towards a taxonomy of errors in HTML and CSS" -p
+%   openalex -p dblp -p scopus; DOI 10.1145/2493394.2493405).
+% PICKED: the only lab-based, intention-coded study of markup errors the
+%   round found; primary source for the error taxonomy and the live-preview
+%   observation.
+% QUOTE (abstract): "we investigate errors people make while writing code in
+%   HTML and CSS. We report on a lab-based study in which 20 participants
+%   were video recorded as they completed coding tasks. We have applied the
+%   skills-rules-knowledge framework to segment this data by the cognitive
+%   causes of errors they made, and present a taxonomy of these errors."
+% QUOTE (the same study as reported in Park2014openHTML, pp. 107--108):
+%   "However, as the primary mode of feedback, the live preview could also
+%   be detrimental. Browsers are tolerant of errors, and do their best to
+%   render HTML and CSS code even when it is riddled with bugs. When a
+%   beginner writes code that has many errors but still renders as desired,
+%   they receive positive feedback. The errors remain latent and unresolved,
+%   reinforcing faulty understandings that can become difficult to later
+%   unlearn."
+% QUOTE (Park2014openHTML, p. 111): "Rule-based errors, which stemmed from
+%   the intentional application of misconceptions, were less common (16.9
+%   percent)."
+% VERIFIED: abstract read (OpenAlex); the paper itself is paywalled and the
+%   Semantic Scholar open-access link is dead; the study's full text
+%   read in the author's open-access dissertation (chapter 5 reports this
+%   study), from which the quotes and pages come. Entails the claim for
+%   HTML/CSS; the bearing on TeX -- which, unlike a browser, stops and
+%   reports -- is our inference and is stated as such.
+% DATE: 2026-08-23
+@inproceedings{Park2013ErrorTaxonomy,
+  author    = {Park, Thomas H. and Saxena, Ankur and Jagannath, Swathi and
+               Wiedenbeck, Susan and Forte, Andrea},
+  title     = {Towards a taxonomy of errors in {HTML} and {CSS}},
+  booktitle = {Proceedings of the Ninth Annual International ACM Conference
+               on International Computing Education Research},
+  series    = {ICER '13},
+  publisher = {ACM},
+  year      = {2013},
+  pages     = {75--82},
+  doi       = {10.1145/2493394.2493405},
+}
+
+% === provenance: Park2015SyntaxErrors ===
+% CLAIM: In an introductory web-development course nearly all students made
+%   HTML/CSS syntax errors that stayed unresolved for weeks, and the errors
+%   that a validator reported were nearly all corrected while those in
+%   untested code were not -- i.e. an error report is what turns a latent
+%   error into a fixed one (adjacent evidence for "an error message is
+%   information" and "errors are normal", and for the persistence of
+%   notation errors).
+% FOUND-VIA: not returned by the topic queries of session
+%   "vt-latex-measurement"; known item (the third Park/Forte study), located
+%   by web search for the Park 2013 paper and retrieved by DOI
+%   10.1145/2700514 (OpenAlex/Crossref); added to the session by title
+%   search (scholar search -n vt-latex-measurement "analysis of HTML and CSS
+%   syntax errors in a web development course" -p openalex -p dblp -p
+%   scopus).
+% PICKED: the largest-n (course-wide log) study of markup errors and their
+%   resolution; primary source for the validation finding.
+% QUOTE (abstract): "Our analysis reveals that nearly all students made
+%   syntax errors that remained unresolved in their assessments, and that
+%   these errors continued weeks into the course. [...] We also find that
+%   validation played a key role in resolving errors: While the majority of
+%   unresolved errors were present in untested code, nearly all of the
+%   errors that were detected through validation were eventually
+%   corrected."
+% QUOTE (the same study as reported in Park2014openHTML, p. 150): "Only 5.2
+%   percent of the errors that students detected through validation were
+%   unresolved. In fact, the vast majority of unresolved errors, 82.7
+%   percent, occurred after the final validation attempt that a student made
+%   or in code that was never validated at all. [...] Despite the value of
+%   validation in helping students become aware of syntax errors, most errors
+%   were latent, invisible in the ever-present feedback provided by the live
+%   preview pane."
+% VERIFIED: abstract read (OpenAlex); the study's full text read in the
+%   author's open-access dissertation (chapter 6), from which the second
+%   quote and its page come. Entails the claim.
+% DATE: 2026-08-23
+@article{Park2015SyntaxErrors,
+  author  = {Park, Thomas H. and Dorn, Brian and Forte, Andrea},
+  title   = {An Analysis of {HTML} and {CSS} Syntax Errors in a Web
+             Development Course},
+  journal = {ACM Transactions on Computing Education},
+  volume  = {15},
+  number  = {1},
+  pages   = {4:1--4:21},
+  year    = {2015},
+  doi     = {10.1145/2700514},
+}
+
+% === provenance: Park2014openHTML ===
+% CLAIM: The open-access full text of the three Park/Forte studies above
+%   (chapters 3, 5 and 6), cited for the verbatim passages and pages; and,
+%   in its own right, for the literature-based observation that WYSIWYG
+%   editors hide the underlying code and "can lead to a misapplication of
+%   analogy, where learners intuit more than is warranted from the document
+%   metaphor" -- the adjacent statement of the WYSIWYG prior that our
+%   compile-model aspects displace.
+% FOUND-VIA: OpenAlex title search for the Park/Forte web-development
+%   studies (api.openalex.org/works?search=OpenHTML novices web markup Park
+%   -> DOI 10.17918/etd-6098); open-access PDF from the Drexel repository
+%   (researchdiscovery.drexel.edu, green OA per OpenAlex).
+% PICKED: the one open full text of the three studies; a dissertation, so
+%   cited alongside the peer-reviewed papers, not instead of them.
+% QUOTE (p. 38): "WYSIWYG also shields users from the underlying code from
+%   which they might otherwise learn to create abstractions and make
+%   inferences, such as how code renders in untested conditions. [...]
+%   WYSIWYG editors in particular can lead to a misapplication of analogy,
+%   where learners intuit more than is warranted from the document
+%   metaphor."
+% VERIFIED: full text read (pdftotext of the repository PDF, 193 pp.); page
+%   numbers from the printed folios. The p. 38 passage is a literature-based
+%   argument (it quotes Ben-Ari 1998 and du Boulay 1986), not a finding of
+%   the dissertation's own studies; cited as such.
+% DATE: 2026-08-23
+@phdthesis{Park2014openHTML,
+  author = {Park, Thomas H.},
+  title  = {{openHTML}: Assessing Barriers and Designing Tools for Learning
+            Web Development},
+  school = {Drexel University},
+  year   = {2014},
+  doi    = {10.17918/etd-6098},
+}
+
+% === provenance: Loch2015WordMaths ===
+% CLAIM: The one LaTeX-adjacent student study the round found measures
+%   perceptions, not understanding: master's students typeset mathematics in
+%   Word and rated ease of use and output quality against other tools (LaTeX
+%   among them).
+% FOUND-VIA: scholar search "latex learnability usability study" -p openalex
+%   -p scopus -p wos -p dblp (session "vt-latex-measurement"); abstract read
+%   via Web of Science/OpenAlex record; metadata from Crossref.
+% PICKED: the only hit in the round with students and LaTeX in the same
+%   study; retained to characterise what the existing work measures
+%   (perception), as the Carpentries surveys do for the shell in the
+%   companion paper.
+% QUOTE (abstract): "We asked master's level students to typeset mathematics
+%   in Word and then comment on their experience, relating to the ease of
+%   use, quality of output and overall experience. We also asked the
+%   students to compare Word to other tools they may have used in the past."
+% VERIFIED: abstract read; entails the claim (perceptions, master's
+%   students). Full text not read.
+% DATE: 2026-08-23
+@article{Loch2015WordMaths,
+  author  = {Loch, B. and Lowe, T. W. and Mestel, B. D.},
+  title   = {Master's students' perceptions of {Microsoft Word} for
+             mathematical typesetting},
+  journal = {Teaching Mathematics and its Applications},
+  volume  = {34},
+  number  = {2},
+  pages   = {91--101},
+  year    = {2015},
+  doi     = {10.1093/teamat/hru020},
+}
+
+% === provenance: Kim2019CSSLayout ===
+% CLAIM: The other thing the markup-education literature measures is
+%   behaviour: activity logs of learners' syntactic and semantic errors
+%   (here in a CSS layout game) -- not understanding measured by an
+%   instrument.
+% FOUND-VIA: OpenAlex search for web-development novice learning studies
+%   (api.openalex.org/works?search="web development" novices HTML CSS
+%   learning, 2011-2020) while retrieving the Park/Forte papers; added to
+%   the session with scholar search -n vt-latex-measurement "learning curves
+%   trajectories CSS layout" -p dblp -p openalex -p scopus (DOI
+%   10.1145/3287324.3287387); abstract via Semantic Scholar's anonymous
+%   graph API.
+% PICKED: corroboration for "what existing work measures" (error logs), the
+%   markup counterpart of the command-log studies in the companion paper.
+% QUOTE (abstract): "We investigated activity logs of a novel web coding
+%   game to uncover learning trajectories and what people struggle with
+%   when learning flexible box (flexbox), a collection of new CSS layout
+%   features. [...] We investigate learning curves based on the changes in
+%   syntactic and semantic errors learners make as they complete the game."
+% VERIFIED: abstract read; entails the claim. Full text (gold OA) not
+%   read.
+% DATE: 2026-08-23
+@inproceedings{Kim2019CSSLayout,
+  author    = {Kim, Meen Chul and Park, Thomas H. and Liu, Ruixue and
+               Forte, Andrea},
+  title     = {Understanding Learning Curves and Trajectories in {CSS}
+               Layout},
+  booktitle = {Proceedings of the 50th ACM Technical Symposium on Computer
+               Science Education},
+  series    = {SIGCSE '19},
+  publisher = {ACM},
+  year      = {2019},
+  pages     = {504--510},
+  doi       = {10.1145/3287324.3287387},
+}
+
+% === provenance: Park2016Hierarchies ===
+% CLAIM: The nearest thing to a measurement of LaTeX-related understanding
+%   is an instrument for reading hierarchies in code: three instruments
+%   (vocabulary, reasoning, fluency), one of them an interactive tool that
+%   elicits mental models of nested structure in languages "ranging from
+%   HTML, CSS, and LaTeX to JavaScript and Lisp", administered to 24
+%   participants; it measures nesting, not the compile model, error
+%   handling or semantic markup.
+% FOUND-VIA: scholar search "markup language learning difficulties students
+%   assessment" -p openalex -p scopus -p wos (session
+%   "vt-latex-measurement"); abstract from the provider record; metadata
+%   from Crossref (DOI 10.1145/2899415.2899435).
+% PICKED: the only instrument in the round whose languages include LaTeX;
+%   cited to delimit the instrument gap precisely (as the OS concept
+%   inventory does for the shell in the companion paper).
+% QUOTE (abstract): "we present three new instruments for assessing
+%   different aspects of reading hierarchies in code, including vocabulary,
+%   reasoning, and fluency. One of these instruments is Nester, an
+%   interactive tool we have designed to elicit mental models about the
+%   hierarchical structure of code in computing languages ranging from HTML,
+%   CSS, and LaTeX to JavaScript and Lisp. We describe a lab study in which
+%   we administered these instruments to 24 participants with varying
+%   degrees of web development experience."
+% VERIFIED: abstract read (provider record, checked against the ACM/Crossref
+%   title and author list); entails the claim. Full text (ACM, gold OA per
+%   OpenAlex) could not be retrieved (HTTP 403 to automated download); the
+%   claim is kept at abstract scope -- an instrument about hierarchy that
+%   includes LaTeX among its languages -- and no more.
+% DATE: 2026-08-23
+@inproceedings{Park2016Hierarchies,
+  author    = {Park, Thomas H. and Kim, Meen Chul and Chhabra, Sukrit and
+               Lee, Brian and Forte, Andrea},
+  title     = {Reading Hierarchies in Code: Assessment of a Basic
+               Computational Skill},
+  booktitle = {Proceedings of the 2016 ACM Conference on Innovation and
+               Technology in Computer Science Education},
+  series    = {ITiCSE '16},
+  publisher = {ACM},
+  year      = {2016},
+  pages     = {302--307},
+  doi       = {10.1145/2899415.2899435},
+}
+
+% --- Method precedents ported from vt-terminal (measurement round) ---
+
+% === provenance: KaltakciGurel2015Diagnostics ===
+% CLAIM: Misconceptions are elicited with a small family of diagnostic
+%   instruments -- interviews, open-ended tests, multiple-choice tests and
+%   multiple-tier tests -- with interviews and open-ended tests the most
+%   common route to students' conceptions.
+% FOUND-VIA: scholar search "two-tier diagnostic test misconceptions
+%   development" -p openalex -p scopus -p wos (session
+%   "vt-terminal-measurement"); entry and block copied verbatim from the
+%   companion paper's misconceptions.bib (vt-prog-misconceptions), where it
+%   was found by scholar search 'student misconceptions AND mental models
+%   AND instructional design AND conceptual change AND concept inventories'
+%   -p openalex --limit 40 (session "related-work-misconception-instruction").
+%   [Ported to vt-latex 2026-08-23 from the companion paper vt-terminal's
+%   bib with its verified provenance block; re-added to session
+%   "vt-latex-measurement" by the same topic query; QUOTE re-checked against
+%   the OpenAlex abstract on 2026-08-23.]
+% PICKED: a review of 273 articles comparing the diagnostic instruments; the
+%   right kind of source for a prevalence claim.
+% QUOTE (abstract): "The study reveals interviews (53%), open-ended tests
+%   (34%), multiple-choice tests (32%) and multiple tier tests (13%) as the
+%   most commonly used diagnostic tools."
+% VERIFIED: abstract read; entails the claim.
+% DATE: 2026-08-21 (original verification 2026-07-10)
+@article{KaltakciGurel2015Diagnostics,
+  author  = {Kaltakci-Gurel, Derya and Eryilmaz, Ali and McDermott, Lillian C.},
+  title   = {A Review and Comparison of Diagnostic Instruments to Identify
+             Students' Misconceptions in Science},
+  journal = {Eurasia Journal of Mathematics, Science and Technology Education},
+  volume  = {11},
+  number  = {5},
+  pages   = {989--1008},
+  year    = {2015},
+  doi     = {10.12973/eurasia.2015.1369a},
+}
+
+% === provenance: Taylor2014CI ===
+% CLAIM: Computer science has no widely used, validated concept inventory
+%   (as of the 2014 review); the groundwork done concerns CS1 and digital
+%   logic, not document preparation or markup.
+% FOUND-VIA: the topic query scholar search "concept inventory computer
+%   science development validation interviews" -p openalex -p scopus -p
+%   wos (-p dblp in session "vt-terminal-measurement") returned no
+%   CS-specific concept-inventory review, so a known-item title search was
+%   run against the OpenAlex API (api.openalex.org/works?search=computer
+%   science concept inventories past and future -> DOI
+%   10.1080/08993408.2014.970779); added to the session with scholar search
+%   -n vt-terminal-measurement "computer science concept inventories past
+%   and future" -p openalex -p dblp -p scopus. The same OpenAlex search
+%   surfaced Ali et al. 2023 (ICER, DOI 10.1145/3568813.3600120), a
+%   systematic review of computing concept inventories, whose full text
+%   could not be read (ACM 403); it is noted, not cited.
+%   [Ported to vt-latex 2026-08-23 from the companion paper vt-terminal's
+%   bib with its verified provenance block; re-added to session
+%   "vt-latex-measurement" by the same topic query; QUOTE re-checked against
+%   the OpenAlex abstract on 2026-08-23.]
+% PICKED: the field's review of concept-inventory work; the right kind of
+%   source for a "none exists" claim (a review, not a single instrument
+%   paper).
+% QUOTE (abstract): "Presently, there are no widely used, validated CIs for
+%   computer science. However, considerable groundwork has been performed
+%   in the form of identifying core concepts, analyzing student
+%   misconceptions, and developing CI assessment questions. Although much
+%   of the work has been focused on CS1 and a CI has been developed for
+%   digital logic, some preliminary work on CIs is underway for other
+%   courses."
+% VERIFIED: abstract read (OpenAlex and Crossref); full text paywalled
+%   (Taylor & Francis).  Claim dated to 2014; later CS1/CS2 inventories
+%   exist but none for the shell (see the COUNTER lines of
+%   WebbTaylor2014OSCI and the session export).
+% COUNTER: scholar search "concept inventory Linux command line" -p openalex
+%   -p scopus -p wos -p dblp (same session) -- no shell or command-line
+%   inventory surfaced; claim stands for the shell.
+% DATE: 2026-08-21
+@article{Taylor2014CI,
+  author  = {Taylor, Cynthia and Zingaro, Daniel and Porter, Leo and
+             Webb, Kevin C. and Lee, Cynthia Bailey and Clancy, Michael},
+  title   = {Computer science concept inventories: past and future},
+  journal = {Computer Science Education},
+  volume  = {24},
+  number  = {4},
+  pages   = {253--276},
+  year    = {2014},
+  doi     = {10.1080/08993408.2014.970779},
+}
+
+% === provenance: WebbTaylor2014OSCI ===
+% CLAIM: A pre-/post-course concept inventory exists for operating systems
+%   -- OS internals, distractors from instructor experience, validation
+%   deferred -- which shows where computing's instrument groundwork lies
+%   (systems courses), not in document preparation or markup.
+% FOUND-VIA: not returned by any of the fifteen topic queries of session
+%   "vt-terminal-measurement" (including "concept inventory Linux command
+%   line" -p openalex -p scopus -p wos -p dblp); known item from background
+%   knowledge, verified by OpenAlex title search
+%   (api.openalex.org/works?search=Developing a pre- and post-course concept
+%   inventory to gauge operating systems learning -> DOI
+%   10.1145/2538862.2538886) and added to the session with scholar search
+%   -n vt-terminal-measurement "operating systems concept inventory pre post
+%   course" -p openalex -p dblp -p scopus. Open PDF located via the
+%   Semantic Scholar API (openAccessPdf):
+%   http://www.cs.swarthmore.edu/~kwebb/papers/OSCI14.pdf.
+%   [Ported to vt-latex 2026-08-23 from the companion paper vt-terminal's
+%   bib with its verified provenance block; re-added to session
+%   "vt-latex-measurement" by the same topic query; QUOTE re-checked against
+%   the OpenAlex abstract on 2026-08-23.]
+% PICKED: the only concept inventory in a Unix-adjacent subject that the
+%   searches or the CS concept-inventory review (Taylor2014CI) identify;
+%   cited to delimit the instrument gap precisely.
+% QUOTE (abstract): "we describe the development of a pre- and post-course
+%   concept inventory, which we utilize to explore students' misconceptions
+%   of operating systems and their associated trade-offs."
+% QUOTE (§3): "We identified areas that students frequently have trouble
+%   understanding and developed multiple choice questions with distractor
+%   answers based on our experiences with common student misconceptions.
+%   [...] Moving forward, we intend to rigorously validate our assessment
+%   by consulting with other experts in teaching operating systems,
+%   interviewing students, and collecting additional data by giving our
+%   assessment to more classes of students."
+% QUOTE (§4.1, heading): "Indirection: File System Block Map"
+% VERIFIED: full text read (pdftotext of the author copy); entails the
+%   claim: OS-internals items, instructor-derived distractors, validation
+%   deferred. Table 2 lists the ten topics (none is the shell or the
+%   directory hierarchy as seen by a user).
+% DATE: 2026-08-21
+@inproceedings{WebbTaylor2014OSCI,
+  author    = {Webb, Kevin C. and Taylor, Cynthia},
+  title     = {Developing a pre- and post-course concept inventory to gauge
+               operating systems learning},
+  booktitle = {Proceedings of the 45th {ACM} Technical Symposium on Computer
+               Science Education},
+  series    = {SIGCSE '14},
+  publisher = {ACM},
+  year      = {2014},
+  pages     = {103--108},
+  doi       = {10.1145/2538862.2538886},
+}
+
+% === provenance: Vahrenhold2014TestItems ===
+% CLAIM: Validated misconception test items in computing exist for
+%   first-year (CS1) courses, developed with think-aloud interviews -- which
+%   locates the field's instrument groundwork in CS1, not in document
+%   preparation, and shows interviews as the route to items.
+% FOUND-VIA: scholar search "concept inventory computer science development
+%   validation interviews" -p openalex -p scopus -p wos -p dblp (session
+%   "vt-terminal-measurement"); abstract read via OpenAlex/Web of Science.
+%   [Ported to vt-latex 2026-08-23 from the companion paper vt-terminal's
+%   bib with its verified provenance block; re-added to session
+%   "vt-latex-measurement" by the same topic query; QUOTE re-checked against
+%   the OpenAlex abstract on 2026-08-23.]
+% PICKED: the CS1 test-item development paper in the same journal issue as
+%   Taylor2014CI; cited as corroboration of where CS instrument work sits.
+% QUOTE (abstract): "We report on the development, validation, and
+%   implementation of a collection of test items designed to detect
+%   misconceptions related to first-year computer science courses. [...]
+%   to simultaneously incorporate think-aloud interviews and flash tests."
+% VERIFIED: abstract read; entails the claim.
+% DATE: 2026-08-21
+@article{Vahrenhold2014TestItems,
+  author  = {Vahrenhold, Jan and Paul, Wolfgang},
+  title   = {Developing and validating test items for first-year computer
+             science courses},
+  journal = {Computer Science Education},
+  volume  = {24},
+  number  = {4},
+  pages   = {304--333},
+  year    = {2014},
+  doi     = {10.1080/08993408.2014.970782},
+}
+
+% === provenance: Pamplona2024VirtualMemory ===
+% CLAIM: The closest precedent for measuring computing students' conceptions
+%   with written pre- and post-course tests is an operating-systems study
+%   of virtual memory (seven online students); it qualifies the "not
+%   measured" claim -- the method exists in computing education -- but it
+%   does not measure LaTeX, document preparation or markup.
+% FOUND-VIA: scholar search "phenomenographic study students understanding
+%   command line" -p openalex -p scopus -p wos (session
+%   "vt-terminal-measurement"); abstract read via OpenAlex (the provider
+%   record lacked one); metadata from Crossref.
+%   [Ported to vt-latex 2026-08-23 from the companion paper vt-terminal's
+%   bib with its verified provenance block; re-added to session
+%   "vt-latex-measurement" by the same topic query; QUOTE re-checked against
+%   the OpenAlex abstract on 2026-08-23.]
+% PICKED: the only hit in the round that derives students' conceptions of
+%   a computing concept from written tests before and after a course;
+%   retained as qualifying work, and as a method precedent for the
+%   pre/post-test design of this paper.
+% QUOTE (abstract): "Study data were obtained from questions on virtual
+%   memory that were included in two written evaluation tests at the
+%   beginning and end of the course. The questions assessed conceptual
+%   knowledge and meaningful learning of the concept of virtual memory. We
+%   discovered nine accepted conceptions and seven alternative conceptions
+%   related to virtual memory. [...] a methodology for discovering
+%   conceptions that can be applied to other computing topics".
+% VERIFIED: abstract read (OpenAlex); entails the claim (OS concept, seven
+%   students, written pre/post tests). Full text not read.
+% DATE: 2026-08-21
+@article{Pamplona2024VirtualMemory,
+  author  = {Pamplona, Sonia and Bravo-Agapito, Javier and Seoane, Isaac},
+  title   = {An Approach to Discover Students' Conceptions in Online
+             Computing Education: A Case Study of Students' Understanding
+             of Virtual Memory},
+  journal = {IEEE Access},
+  volume  = {12},
+  pages   = {111546--111564},
+  year    = {2024},
+  doi     = {10.1109/ACCESS.2024.3442440},
+}
+
