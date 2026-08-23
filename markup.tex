@@ -36,16 +36,42 @@ semantic-markup use) supplies the local observations
 (cf.\ \cref{sec:method-course-data}).
 
 \subsection{Candidate critical aspects}
+\label{sec:markup-aspects}
 
-% XXX Preliminary.
-\begin{itemize}
-  \item \emph{Say what it is, not how it looks}: \verb|\section| versus
-    large bold text; \verb|\emph| versus italics.
-  \item \emph{One declaration, many appearances}: the same source
-    renders differently under a different class or style.
-  \item \emph{References are relations}: \verb|\ref|/\verb|\cite| link to
-    things, and the compiler maintains the links.
-\end{itemize}
+With the literature on markup-as-meaning empty, the three candidates below
+rest on our course's grading and on the object of learning.
+
+\begin{description}
+  \item[Say what it is, not how it looks]
+    \verb|\section| versus large bold text; \verb|\emph| versus italics:
+    markup declares what a thing \emph{is}, and only what is declared
+    enters the table of contents and the numbering.
+    Read off our own course: the LaTeX lab's grading checks
+    semantic-markup use, and its failures are the documented instances
+    (\cref{sec:method-course-data}); the literature has the concept but
+    no documented difficulty \autocite{Park2011WebDev}.
+    Tested by the item \emph{two ways to make a heading} and its open
+    twin \emph{two headings that look alike}
+    (\cref{app:knowledge-items,app:open-items}).
+  \item[One declaration, many appearances]
+    The same source renders differently under a different class or
+    style, because the markup fixes the structure, not the look.
+    Posited from the object of learning as the consequence of the first
+    aspect: if the markup says what a thing is, how it looks is decided
+    elsewhere and can be decided again.
+    Tested by the item \emph{the same source, another look}.
+  \item[References are relations]
+    \verb|\ref| and \verb|\cite| link to things, and the compiler
+    maintains the links and the numbering---over more than one run, so
+    that a fresh reference comes out as two question marks until the
+    next.
+    Posited from the object of learning; the manual renumbering the
+    WYSIWYG model assumes is what the learner has to unlearn, and no
+    study documents it.
+    Tested by the items \emph{inserting a section} and \emph{question
+    marks in the output}, the latter with its open twin \emph{two
+    question marks}.
+\end{description}
 
 \subsection{Patterns of variation}
 

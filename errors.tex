@@ -43,17 +43,45 @@ TeX stops and reports; the report is the resource, if it is read.
 % they do next?
 
 \subsection{Candidate critical aspects}
+\label{sec:errors-aspects}
 
-% XXX Preliminary.
-\begin{itemize}
-  \item \emph{An error message is information}: it names a place and a
-    cause, in that order of reliability.
-  \item \emph{The first error counts}: later errors are often
-    consequences.
-  \item \emph{Errors are normal}: the recompile loop is the working mode,
-    not a failure mode. (Debugging as learning: cf.\ the companion paper
-    \autocite{VTDebug}.)
-\end{itemize}
+The programming and markup literatures above give three candidates, and
+they are the best-grounded of the paper: two are read off documented
+difficulties, though with programming rather than TeX errors.
+
+\begin{description}
+  \item[An error message is information]
+    It names a place and a cause, in that order of reliability, and has
+    to be read.
+    Read off two findings: that students who read the message generally
+    make effective changes afterwards \autocite{Prather2017Interaction},
+    and that errors a system reports get fixed while errors nothing
+    reports stay latent \autocite{Park2015SyntaxErrors,%
+    Park2013ErrorTaxonomy}---so the report is the resource, if the
+    learner treats it as one; that the messages are cryptic and a barrier
+    \autocite{Becker2016CEM,Traver2010CompilerErrors,%
+    Denny2021ErrorReadability} is why treating them so must be taught.
+    Tested by the item \emph{reading the report} and, in open form, by
+    \emph{what this message says}
+    (\cref{app:knowledge-items,app:open-items}).
+  \item[The first error counts]
+    Later errors are often consequences of the first, so it is fixed
+    first and the document recompiled.
+    Read off the activity-log finding that novices addressed the first
+    error only about half the time, and that doing so went with better
+    grades \autocite{Munson2016CompilerErrors}; documented for
+    programming, transferred to TeX by us.
+    Tested by the item \emph{which error first}.
+  \item[Errors are normal]
+    The recompile loop is the working mode, not a failure mode
+    (debugging as learning: cf.\ the companion paper
+    \autocite{VTDebug}).
+    No study documents the opposite conception; the aspect is posited
+    from the object of learning, with the observation that syntax errors
+    continued for weeks in a markup course \autocite{Park2015SyntaxErrors}
+    as weak corroboration that the loop does not end.
+    Tested by the item \emph{a document that will not compile}.
+\end{description}
 
 \subsection{Patterns of variation}
 
