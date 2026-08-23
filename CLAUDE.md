@@ -109,9 +109,11 @@ from the tangled **end**-quiz JSON, filters by consent, prints per-item
 facility and distractor counts, paired pre/post gains (`--quiz both
 --results start.csv end.csv`) and writes a long-format coding sheet for
 the accounts (optional `--llm` pre-coding in separate `suggested_*`
-columns). It imports `canvaslms` only when fetching from Canvas; run it
-with the pipx interpreter (`~/.local/pipx/venvs/canvaslms/bin/python`) for
-that. Activate the `literate-programming` skill before editing `quiz.nw`.
+columns). It fetches from every course in `COURSES` (datintro26 plus the
+CS programme's parallel course, where the module is copied by hand;
+exact 2026 code unconfirmed, issue #6), tagging rows by course. It
+imports `canvaslms` only when fetching from Canvas; run it with the pipx
+interpreter (`~/.local/pipx/venvs/canvaslms/bin/python`) for that. Activate the `literate-programming` skill before editing `quiz.nw`.
 
 ## State of the paper
 
