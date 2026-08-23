@@ -88,8 +88,12 @@ goes*, is the closed twin of open item 4 and is in the end quiz only, so
 the start quiz has 10 closed items and the end quiz 11). Canvas New-Quiz
 settings: `multiple_attempts` and `result_view_settings` are *nested*
 objects inside `quiz_settings` (flat keys are silently dropped by Canvas);
-the start quiz hides correctness and correct answers, the end quiz shows
-them. The two JSONs carry canvaslms `modules` specs: each quiz is the sole,
+the start quiz hides correctness, correct answers and item feedback, the
+end quiz shows them all. Every item carries `feedback.neutral`: for closed
+items why the key is right and what each distractor assumes, for open
+items a *provisional* outcome space (ordered levels posited from the
+aspects; replace with the empirical one after cohort 1, issue #5); the
+analysis program ignores it. The two JSONs carry canvaslms `modules` specs: each quiz is the sole,
 must-submit item of its own datintro26 module ("LaTeX pre-test" / "LaTeX
 post-test") bracketing the "Report writing" module, and the appendix prose
 gives the `modules create`/`modules edit --prerequisite` commands that

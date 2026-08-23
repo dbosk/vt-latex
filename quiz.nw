@@ -59,6 +59,14 @@ complete the moment it is opened and the prerequisite would lock
 nothing.
 The modules and the quizzes are created unpublished; the teacher
 releases them when the module opens.
+A later change to this source is applied to the quizzes already in
+Canvas with [[canvaslms --no-cache quizzes edit -c datintro26 -f <file>]],
+which updates the settings and, with [[--replace-items]], replaces every
+item from the file; the module placement is untouched, and the tool stops
+to ask if any student has already submitted.
+([[--no-cache]] because the tool's cache of the course's quizzes does not
+yet know the quizzes the tool itself created; without it the quiz is
+\enquote{not found}.)
 The two quizzes share their open items and, with one exception explained
 with the item (\cref{app:knowledge-items}), their knowledge items; they
 differ in what opens them.
@@ -182,6 +190,14 @@ the answers: it shows, item by item, whether the answer was right and
 which alternative was, so that the diagnostic also teaches---the
 distractor a student chose is the misconception they can now read against
 the correct account.
+It also shows, under each item, a short text of ours: for a closed item
+why the keyed alternative is right and what each distractor assumes, and
+for an open item the ways of seeing we expect, from the first impression
+to the one the module aims at (\cref{app:open-items-feedback}).
+That text travels with the item, and the items are shared by the two
+quizzes, so the start quiz carries it too; the last key of each object is
+the one switch that hides it there and shows it at the end, and the
+deployment reads the settings back to confirm the switch took.
 The platform applies none of this unless the view is declared
 restricted, hence the first key of each object.
 
@@ -193,7 +209,8 @@ restricted, hence the first key of each object.
   "display_items": true,
   "display_item_response": true,
   "display_item_response_correctness": false,
-  "display_item_correct_answer": false
+  "display_item_correct_answer": false,
+  "display_item_feedback": false
 }
 <<end result view>>=
 "result_view_settings": {
@@ -203,7 +220,8 @@ restricted, hence the first key of each object.
   "display_items": true,
   "display_item_response": true,
   "display_item_response_correctness": true,
-  "display_item_correct_answer": true
+  "display_item_correct_answer": true,
+  "display_item_feedback": true
 }
 @
 
@@ -337,7 +355,8 @@ the discerning \autocite[p.~91]{NCOL}.
     "interaction_type_slug": "essay",
     "interaction_data": {"rce": false, "word_limit_enabled": false},
     "scoring_data": {"value": ""},
-    "scoring_algorithm": "None"
+    "scoring_algorithm": "None",
+    <<outcome space: what LaTeX is>>
   }
 }
 @
@@ -364,7 +383,8 @@ how, or that it can be made again.
     "interaction_type_slug": "essay",
     "interaction_data": {"rce": false, "word_limit_enabled": false},
     "scoring_data": {"value": ""},
-    "scoring_algorithm": "None"
+    "scoring_algorithm": "None",
+    <<outcome space: a mistake in the PDF>>
   }
 }
 @
@@ -386,7 +406,8 @@ relation between the two windows to be.
     "interaction_type_slug": "essay",
     "interaction_data": {"rce": false, "word_limit_enabled": false},
     "scoring_data": {"value": ""},
-    "scoring_algorithm": "None"
+    "scoring_algorithm": "None",
+    <<outcome space: the PDF has not changed>>
   }
 }
 @
@@ -411,7 +432,8 @@ should show (\cref{sec:errors}).
     "interaction_type_slug": "essay",
     "interaction_data": {"rce": false, "word_limit_enabled": false},
     "scoring_data": {"value": ""},
-    "scoring_algorithm": "None"
+    "scoring_algorithm": "None",
+    <<outcome space: what this message says>>
   }
 }
 @
@@ -433,7 +455,8 @@ in looks, and one that finds a difference in what the document
     "interaction_type_slug": "essay",
     "interaction_data": {"rce": false, "word_limit_enabled": false},
     "scoring_data": {"value": ""},
-    "scoring_algorithm": "None"
+    "scoring_algorithm": "None",
+    <<outcome space: two headings that look alike>>
   }
 }
 @
@@ -455,9 +478,57 @@ reference not yet resolved.
     "interaction_type_slug": "essay",
     "interaction_data": {"rce": false, "word_limit_enabled": false},
     "scoring_data": {"value": ""},
-    "scoring_algorithm": "None"
+    "scoring_algorithm": "None",
+    <<outcome space: two question marks>>
   }
 }
+@
+
+\subsubsection{What the end quiz shows for an account}
+\label{app:open-items-feedback}
+
+The end quiz has an answer for the open items too.
+Under each account it shows the ways of seeing we expect for that
+stimulus, from the first impression to the one the module aims at---an
+outcome space, ordered as phenomenography orders one: each level
+discerns something the level before it does not
+\autocite[Ch.~2]{NCOL}.
+The levels are \emph{provisional}: no account has been read yet, so they
+are posited from the candidate critical aspects of the chapter each item
+belongs to
+(\cref{sec:compilation-aspects,sec:errors-aspects,sec:markup-aspects}),
+and they are written for the student, in the words of the stem.
+Three things keep them from contaminating the data.
+They are shown only after submission, so the account is written first;
+they are shown only in the end quiz, since the start quiz hides all
+feedback (\cref{app:quiz}); and they are never given to the coder or to
+the model that pre-codes the accounts
+(\cref{app:quiz-analysis})---the categories are what the analysis is to
+find, and a coder who had our expectation in front of them would be
+confirming it.
+Once the first cohort's accounts are coded, the empirical outcome space
+replaces these lists, and the closed items' explanations are revisited
+against the distractor frequencies.
+% TODO(#5): replace the provisional outcome spaces below with the
+% empirical ones after the first cohort's accounts are coded; re-apply
+% both quizzes with canvaslms quizzes edit.
+
+The platform shows such a text as the item's feedback; the first line
+says what the list is, and the list runs from the least to the most
+powerful way of seeing.
+
+<<outcome space: what LaTeX is>>=
+"feedback": {"neutral": "<p>Different answers to this question show different ways of seeing LaTeX. In order, from a first impression to the way of seeing the module aims at:</p><ol><li>LaTeX is a program for making good-looking documents&mdash;a word processor with codes in it.</li><li>LaTeX is a notation: you write text with commands in it, and some program turns that into a PDF.</li><li>LaTeX is two things and a step between them: the file <em>is</em> the document, the PDF is made from it each time LaTeX is run, and the commands say what things are while the document class decides how they look.</li></ol>"}
+<<outcome space: a mistake in the PDF>>=
+"feedback": {"neutral": "<p>Different answers to this question show different ways of seeing LaTeX. In order, from a first impression to the way of seeing the module aims at:</p><ol><li>Correct it in the PDF&mdash;the PDF is the document.</li><li>Correct it in the file, and expect the PDF to follow by itself.</li><li>Correct it in the file and make the PDF again&mdash;the PDF is made from the file and is only as current as the last run.</li></ol>"}
+<<outcome space: the PDF has not changed>>=
+"feedback": {"neutral": "<p>Different answers to this question show different ways of seeing LaTeX. In order, from a first impression to the way of seeing the module aims at:</p><ol><li>Something is broken: the save failed, or the viewer is stuck.</li><li>It updates by itself, just not yet.</li><li>The PDF is the result of the last run and changes when LaTeX is run again&mdash;so run it.</li></ol>"}
+<<outcome space: what this message says>>=
+"feedback": {"neutral": "<p>Different answers to this question show different ways of seeing LaTeX. In order, from a first impression to the way of seeing the module aims at:</p><ol><li>Noise, or a verdict: the document is broken; start over or ask someone.</li><li>A place: something near line 30 went wrong, so look there.</li><li>A place <em>and</em> a cause: a list begun at line 12 was never closed, and LaTeX noticed when the document ended. The message names the first problem; fix it, run again, and expect to do this often.</li></ol>"}
+<<outcome space: two headings that look alike>>=
+"feedback": {"neutral": "<p>Different answers to this question show different ways of seeing LaTeX. In order, from a first impression to the way of seeing the module aims at:</p><ol><li>No difference&mdash;both are headings, because both look like one.</li><li>A difference of convenience&mdash;the first is shorter and numbers itself.</li><li>A difference in kind&mdash;the first <em>declares</em> a section, so it is numbered, enters the table of contents, can be referred to, and gets its look from the class; the second only looks like one.</li></ol>"}
+<<outcome space: two question marks>>=
+"feedback": {"neutral": "<p>Different answers to this question show different ways of seeing LaTeX. In order, from a first impression to the way of seeing the module aims at:</p><ol><li>A mistake in my text: the label is misspelt, or references do not work.</li><li>Something to fix by hand: type the number in.</li><li>A reference not yet resolved: LaTeX notes where the label is on one run and fills the number in on the next&mdash;so run it again.</li></ol>"}
 @
 
 \subsection{The knowledge items}
@@ -484,6 +555,13 @@ the longest alternative is a known cue for test-wise students.
 All items weigh one point: we measure discernment by counting correct
 answers, and \cref{app:quiz-analysis} reports them item by item, since
 each item stands for one aspect.
+Each item is followed by the text the end quiz shows under it, with the
+correct alternative: a short account of why that alternative is right and
+what each distractor assumes---the distractor a student chose is the
+misconception they can now read against it.
+The text may name the aspect, since it is shown only after the answer and
+only at the end; it paraphrases the rationale given before the item, and
+the two must be kept in step.
 
 The items are numbered from position~11 so that their placement is
 independent of the quiz they appear in: Canvas orders by position, gaps
@@ -543,9 +621,12 @@ gap there.
       ]
     },
     "scoring_data": {"value": 2},
-    "scoring_algorithm": "Equivalence"
+    "scoring_algorithm": "Equivalence",
+    <<feedback: where the change goes>>
   }
 }
+<<feedback: where the change goes>>=
+"feedback": {"neutral": "<p>The LaTeX file is the document; the PDF is made from it, never the other way round. So the correction goes into the file, and the PDF is made again. Editing the PDF, or expecting the file to follow the PDF, takes the PDF for the document.</p>"}
 @
 
 The compiler reads, it does not watch (\cref{sec:compilation}): the PDF
@@ -574,9 +655,12 @@ so that the word does not give the alternative away
       ]
     },
     "scoring_data": {"value": 4},
-    "scoring_algorithm": "Equivalence"
+    "scoring_algorithm": "Equivalence",
+    <<feedback: after you edit>>
   }
 }
+<<feedback: after you edit>>=
+"feedback": {"neutral": "<p>The PDF shows the result of the last run of LaTeX; saving the file changes nothing in it until LaTeX is run again. Nothing failed and nothing is out of step: the viewer shows a PDF that has not been remade, and it will not remake itself.</p>"}
 @
 
 Whitespace and characters mean things (\cref{sec:compilation}): the file
@@ -605,9 +689,12 @@ spaces are \enquote{special}, which is the aspect.
       ]
     },
     "scoring_data": {"value": 1},
-    "scoring_algorithm": "Equivalence"
+    "scoring_algorithm": "Equivalence",
+    <<feedback: spaces in the source>>
   }
 }
+<<feedback: spaces in the source>>=
+"feedback": {"neutral": "<p>LaTeX reads the file as a notation, not as a picture of the page: a run of spaces is one space, and a blank line ends a paragraph. The layout of the file is not copied to the PDF, so the gap is not kept; nor is it an error, and the blank line is not ignored.</p>"}
 @
 
 Structure nests (\cref{sec:compilation}): an environment opened with
@@ -641,9 +728,12 @@ list after the first, or take the nesting for an error.
       ]
     },
     "scoring_data": {"value": 1},
-    "scoring_algorithm": "Equivalence"
+    "scoring_algorithm": "Equivalence",
+    <<feedback: a list inside a list>>
   }
 }
+<<feedback: a list inside a list>>=
+"feedback": {"neutral": "<p>A \\begin is closed by its \\end, and what lies between belongs to it: the inner list belongs to the point Fruit, so Apples is a point under Fruit, set in. The three \\items are not at one level, the two \\begins are not two lists one after the other, and nesting is not an error&mdash;it is how structure is written.</p>"}
 @
 
 \subsubsection{Errors and debugging the document}
@@ -672,9 +762,12 @@ say that the message is to be read, nor where the line number points.
       ]
     },
     "scoring_data": {"value": 3},
-    "scoring_algorithm": "Equivalence"
+    "scoring_algorithm": "Equivalence",
+    <<feedback: reading the report>>
   }
 }
+<<feedback: reading the report>>=
+"feedback": {"neutral": "<p>The message is information: it names a cause&mdash;an undefined control sequence, that is, a command LaTeX does not know, \\setion&mdash;and a place, line 42, where it met it. It does not say that a file is missing, nor that Introduction is a bad title; and the line number is where the problem was met, not an arbitrary place.</p>"}
 @
 
 The first error counts (\cref{sec:errors}): later errors are often
@@ -703,9 +796,12 @@ picked for being the only alternative that explains the message
       ]
     },
     "scoring_data": {"value": 1},
-    "scoring_algorithm": "Equivalence"
+    "scoring_algorithm": "Equivalence",
+    <<feedback: which error first>>
   }
 }
+<<feedback: which error first>>=
+"feedback": {"neutral": "<p>Later errors are often consequences of the first: an unknown \\includegraphics leaves the figure in a state that produces the second message, and more. Fix the first, run again, and see what remains; fixing the last first, or all eight before running, or the easiest one, spends effort on messages that may vanish by themselves.</p>"}
 @
 
 Errors are normal (\cref{sec:errors}): the recompile loop is the working
@@ -733,9 +829,12 @@ the situation itself.
       ]
     },
     "scoring_data": {"value": 4},
-    "scoring_algorithm": "Equivalence"
+    "scoring_algorithm": "Equivalence",
+    <<feedback: a document that will not compile>>
   }
 }
+<<feedback: a document that will not compile>>=
+"feedback": {"neutral": "<p>An error stops this run; it does not touch the file. Read the message, fix what it names, run again&mdash;that is the normal way of working with LaTeX, and most documents go through it many times. Nothing is corrupted, deleted or refused.</p>"}
 @
 
 \subsubsection{Semantic markup}
@@ -767,9 +866,12 @@ the other is not.
       ]
     },
     "scoring_data": {"value": 2},
-    "scoring_algorithm": "Equivalence"
+    "scoring_algorithm": "Equivalence",
+    <<feedback: two ways to make a heading>>
   }
 }
+<<feedback: two ways to make a heading>>=
+"feedback": {"neutral": "<p>\\section declares a section: that is why it is numbered, enters the table of contents and can be referred to, and why its look is set by the document class. The second line only looks like a heading; to LaTeX it is large bold text in a paragraph. Looking alike does not make them equivalent, the table of contents lists sections rather than bold text, and setting the look by hand gives up everything the declaration gives.</p>"}
 @
 
 One declaration, many appearances (\cref{sec:markup}): the same marked-up
@@ -801,9 +903,12 @@ the key out.
       ]
     },
     "scoring_data": {"value": 3},
-    "scoring_algorithm": "Equivalence"
+    "scoring_algorithm": "Equivalence",
+    <<feedback: the same source, another look>>
   }
 }
+<<feedback: the same source, another look>>=
+"feedback": {"neutral": "<p>The commands say what things are&mdash;a section, an emphasis, a citation; how they look is decided by the class. So another class can change fonts, heading style and numbering while the structure the commands declare stays the same. The file does not fix the look, another class reads the same commands, and nothing needs marking again.</p>"}
 @
 
 References are relations (\cref{sec:markup}): [[\ref]] and [[\cite]] link
@@ -831,9 +936,12 @@ for the author.
       ]
     },
     "scoring_data": {"value": 4},
-    "scoring_algorithm": "Equivalence"
+    "scoring_algorithm": "Equivalence",
+    <<feedback: inserting a section>>
   }
 }
+<<feedback: inserting a section>>=
+"feedback": {"neutral": "<p>Sections are numbered, and \\ref and the table of contents are filled in, by LaTeX on each run; the numbers are not in the file. Inserting a section therefore changes nothing by hand: the next run renumbers and updates the table of contents and every reference. Neither the numbers nor the references need typing.</p>"}
 @
 
 The same aspect has a second face, which the previous item does not
@@ -866,9 +974,12 @@ This is the closed twin of the open item \emph{two question marks}
       ]
     },
     "scoring_data": {"value": 3},
-    "scoring_algorithm": "Equivalence"
+    "scoring_algorithm": "Equivalence",
+    <<feedback: question marks in the output>>
   }
 }
+<<feedback: question marks in the output>>=
+"feedback": {"neutral": "<p>A \\ref is a relation LaTeX resolves: on one run it notes where each label is, and on the next it fills the number in, so a new reference shows as ?? once. The label is not misspelt, numbers can be referred to this way, and the order of label and reference in the file does not matter. Run LaTeX again.</p>"}
 @
 
 \subsection{Analysing the results}
@@ -987,6 +1098,9 @@ spaces, since Canvas is free to rewrap.
 The graded choice items are the knowledge items (the preparation item is
 a choice item too, but carries no points); the essay items are the open
 items, whose stems the pre-coding prompt quotes.
+The feedback an item carries is for the student and is not read here: in
+particular the provisional outcome spaces of \cref{app:open-items-feedback}
+never reach the coding sheet or the pre-coding prompt.
 
 <<the answer key from the quiz description>>=
 TAGS = re.compile(r"<[^>]+>")
